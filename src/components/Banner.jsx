@@ -1,6 +1,9 @@
 import './Banner.css'
+import { useLocale } from '../i18n/LocaleContext'
 
 export default function Banner() {
+  const { t } = useLocale()
+
   return (
     <section className="banner" id="home">
       <div className="banner-bg">
@@ -13,18 +16,15 @@ export default function Banner() {
       </div>
 
       <div className="banner-content">
-        <p className="banner-eyebrow">Fresh · Handcrafted · Delivered</p>
+        <p className="banner-eyebrow">{t('banner.eyebrow')}</p>
         <h1 className="banner-title">
-          Where Every Petal<br />
-          <span className="banner-accent">Tells a Story</span>
+          {t('banner.title')}<br />
+          <span className="banner-accent">{t('banner.title.accent')}</span>
         </h1>
-        <p className="banner-sub">
-          Curated bouquets for every moment — birthdays, anniversaries,<br />
-          or just because you care.
-        </p>
+        <p className="banner-sub">{t('banner.sub')}</p>
         <div className="banner-actions">
-          <button className="btn-primary">Shop Now</button>
-          <button className="btn-ghost">Explore Collections</button>
+          <button className="btn-primary">{t('banner.cta.primary')}</button>
+          <button className="btn-ghost">{t('banner.cta.ghost')}</button>
         </div>
       </div>
 
@@ -32,7 +32,7 @@ export default function Banner() {
         <div className="banner-blob"></div>
         <img
           className="banner-img"
-          src="https://images.unsplash.com/photo-1487530811015-780f2f5e3f6e?w=600&q=80"
+          src="https://floreriabriceida.com/store/wp-content/uploads/100-rosas-cansasta.jpg?w=600&q=80"
           alt="Beautiful flower bouquet"
         />
         <div className="badge badge-1">🌹 Same-day delivery</div>

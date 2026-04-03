@@ -1,42 +1,45 @@
 import './Footer.css'
+import { useLocale } from '../i18n/LocaleContext'
 
 export default function Footer() {
+  const { t } = useLocale()
+
   return (
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <span className="footer-logo">🌸 Petal & Bloom</span>
-          <p>Bringing nature's beauty to your doorstep, one bouquet at a time.</p>
+          <span className="footer-logo">🌸 El Jardin de Casa Blanca</span>
+          <p>{t('footer.tagline')}</p>
         </div>
         <div className="footer-links">
-          <h4>Shop</h4>
+          <h4>{t('footer.shop.heading')}</h4>
           <ul>
-            <li>Bouquets</li>
-            <li>Seasonal</li>
-            <li>Gifts</li>
-            <li>Subscriptions</li>
+            <li>{t('footer.shop.bouquets')}</li>
+            <li>{t('footer.shop.seasonal')}</li>
+            <li>{t('footer.shop.gifts')}</li>
+            <li>{t('footer.shop.subscriptions')}</li>
           </ul>
         </div>
         <div className="footer-links">
-          <h4>Help</h4>
+          <h4>{t('footer.help.heading')}</h4>
           <ul>
-            <li>FAQ</li>
-            <li>Delivery Info</li>
-            <li>Returns</li>
-            <li>Contact Us</li>
+            <li>{t('footer.help.faq')}</li>
+            <li>{t('footer.help.delivery')}</li>
+            <li>{t('footer.help.returns')}</li>
+            <li>{t('footer.help.contact')}</li>
           </ul>
         </div>
         <div className="footer-newsletter">
-          <h4>Stay in Bloom</h4>
-          <p>Get weekly deals and flower tips.</p>
+          <h4>{t('footer.newsletter.heading')}</h4>
+          <p>{t('footer.newsletter.desc')}</p>
           <div className="newsletter-form">
-            <input type="email" placeholder="your@email.com" />
-            <button>Subscribe</button>
+            <input type="email" placeholder={t('footer.newsletter.placeholder')} />
+            <button>{t('footer.newsletter.btn')}</button>
           </div>
         </div>
       </div>
       <div className="footer-bottom">
-        <p>© 2026 Petal & Bloom. Made with 🌹 and lots of love.</p>
+        <p>{t('footer.copyright')}</p>
       </div>
     </footer>
   )
