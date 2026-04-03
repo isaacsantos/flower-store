@@ -23,7 +23,7 @@
   gap: 0.5rem;
 }
 
-.logo-icon { font-size: 1.8rem; animation: spin 6s linear infinite; }
+.logo-icon { height: 2.2rem; width: auto; display: block; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .logo-text {

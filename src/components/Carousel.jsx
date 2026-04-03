@@ -3,7 +3,7 @@ import './Carousel.css'
 import { useLocale } from '../i18n/LocaleContext'
 
 const FLOWER_IMAGES = [
-  'https://lh3.googleusercontent.com/p/AF1QipMSLoMtNl9xY6L23w140uIJnyWF0x3Mk_6tRqrE=s1360-w1360-h1020-rw?w=400&q=80',
+  'https://floreriabriceida.com/store/wp-content/uploads/100-rosas-cansasta.jpg?w=400&q=80',
   'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=400&q=80',
   'https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=400&q=80',
   'https://floreriabriceida.com/store/wp-content/uploads/100-rosas-cansasta.jpg?w=400&q=80',

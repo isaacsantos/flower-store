@@ -1,6 +1,7 @@
 import './Navbar.css'
 import { useLocale } from '../i18n/LocaleContext'
 import LanguageSwitcher from './LanguageSwitcher'
+import logo from '../assets/logo.png'
 
 export default function Navbar() {
   const { t } = useLocale()
@@ -8,7 +9,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="nav-logo">
-        <span className="logo-icon">🌸</span>
+        <img src={logo} alt="El Jardin de Casa Blanca" className="logo-icon" />
         <span className="logo-text">El Jardin de Casa Blanca</span>
       </div>
       <ul className="nav-links">
