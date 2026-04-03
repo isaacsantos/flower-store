@@ -37,6 +37,8 @@
   flex: 1;
   max-width: 560px;
   animation: fadeInLeft 0.9s ease both;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes fadeInLeft {
@@ -54,7 +56,7 @@
 }
 
 .banner-title {
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1.1;
   color: #1a0a0f;
   margin-bottom: 1.5rem;
@@ -186,3 +188,63 @@
 }
 
 .banner-wave svg { width: 100%; height: 80px; }
+
+/* ── Tablet ── */
+@media (max-width: 900px) {
+  .banner {
+    padding: 6rem 3rem 4rem;
+    gap: 2rem;
+  }
+
+  .banner-img {
+    width: 280px;
+    height: 280px;
+  }
+
+  .banner-blob {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .banner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 5.5rem 1.5rem 3rem;
+    min-height: auto;
+    gap: 2.5rem;
+  }
+
+  .banner-content {
+    max-width: 100%;
+  }
+
+  .banner-actions {
+    justify-content: center;
+  }
+
+  .banner-sub br { display: none; }
+
+  .banner-image-wrap {
+    width: 100%;
+  }
+
+  .banner-img {
+    width: 260px;
+    height: 260px;
+  }
+
+  .banner-blob {
+    width: 280px;
+    height: 280px;
+  }
+
+  .badge-1 { left: 5%; }
+  .badge-2 { right: 5%; }
+
+  /* Hide some petals on mobile to reduce clutter */
+  .petal-3, .petal-5 { display: none; }
+}

@@ -59,6 +59,7 @@
   font-size: 0.9rem;
   outline: none;
   transition: border-color 0.3s;
+  min-width: 0;
 }
 
 .newsletter-form input:focus { border-color: #f472b6; }
@@ -73,6 +74,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s;
+  white-space: nowrap;
 }
 
 .newsletter-form button:hover { transform: scale(1.05); }
@@ -83,4 +85,45 @@
   text-align: center;
   color: #9b6b7a;
   font-size: 0.85rem;
+}
+
+/* ── Tablet ── */
+@media (max-width: 900px) {
+  .footer {
+    padding: 3rem 2.5rem 2rem;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .footer {
+    padding: 2.5rem 1.25rem 1.5rem;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .footer-brand {
+    grid-column: auto;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .newsletter-form button {
+    width: 100%;
+    padding: 0.8rem;
+  }
 }

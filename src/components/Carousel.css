@@ -16,7 +16,7 @@
 }
 
 .section-title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.8rem, 4vw, 3rem);
   color: #1a0a0f;
   margin-bottom: 0.75rem;
 }
@@ -218,6 +218,14 @@
   gap: 24px;
   justify-content: center;
   padding: 1rem;
+  flex-wrap: wrap;
+}
+
+.loading-text {
+  width: 100%;
+  color: #9b6b7a;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
 }
 
 .skeleton-card {
@@ -237,4 +245,32 @@
   color: #e11d48;
   font-size: 1.1rem;
   padding: 2rem;
+}
+
+/* ── Tablet ── */
+@media (max-width: 900px) {
+  .carousel-section { padding: 4rem 1.5rem; }
+
+  .carousel-arrow {
+    width: 40px; height: 40px;
+    font-size: 1.4rem;
+  }
+
+  .skeleton-card { width: 260px; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .carousel-section { padding: 3.5rem 1rem; }
+
+  .carousel-arrow {
+    width: 36px; height: 36px;
+    font-size: 1.2rem;
+  }
+
+  .product-card { width: 260px; }
+
+  .skeleton-card { width: 240px; height: 320px; }
+
+  .section-sub { font-size: 0.95rem; }
 }
