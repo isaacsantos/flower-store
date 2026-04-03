@@ -1,0 +1,240 @@
+.carousel-section {
+  padding: 6rem 2rem;
+  background: #fff7f0;
+  text-align: center;
+}
+
+.section-header { margin-bottom: 3rem; }
+
+.section-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e11d48;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #1a0a0f;
+  margin-bottom: 0.75rem;
+}
+
+.section-sub {
+  color: #6b3a4a;
+  font-size: 1.05rem;
+}
+
+/* Carousel */
+.carousel-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.carousel-viewport {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 1rem 0.5rem;
+}
+
+/* Arrow buttons */
+.carousel-arrow {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 2px solid #e11d48;
+  background: white;
+  color: #e11d48;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  box-shadow: 0 4px 15px rgba(225,29,72,0.15);
+}
+
+.carousel-arrow:hover {
+  background: #e11d48;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Product card */
+.product-card {
+  width: 300px;
+  flex-shrink: 0;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  animation: cardFadeIn 0.6s ease both;
+  cursor: pointer;
+}
+
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.product-card.hovered {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(225,29,72,0.2);
+}
+
+.card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+}
+
+.card-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card.hovered .card-img { transform: scale(1.1); }
+
+.card-tag {
+  position: absolute;
+  top: 12px; left: 12px;
+  background: linear-gradient(135deg, #e11d48, #f472b6);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 50px;
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(225,29,72,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.product-card.hovered .card-overlay { opacity: 1; }
+
+.card-quick-btn {
+  background: white;
+  color: #e11d48;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  transform: translateY(10px);
+  transition: transform 0.3s;
+}
+
+.product-card.hovered .card-quick-btn { transform: translateY(0); }
+
+.card-body { padding: 1.25rem; text-align: left; }
+
+.card-name {
+  font-size: 1.2rem;
+  color: #1a0a0f;
+  margin-bottom: 0.4rem;
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: #9b6b7a;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #e11d48;
+  font-family: 'Playfair Display', serif;
+}
+
+.card-btn {
+  background: linear-gradient(135deg, #e11d48, #f472b6);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(225,29,72,0.35);
+}
+
+/* Dots */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2rem;
+}
+
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #f9a8d4;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.dot.active, .dot:hover {
+  background: #e11d48;
+  transform: scale(1.3);
+}
+
+/* Loading skeletons */
+.loading-wrap {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.skeleton-card {
+  width: 300px; height: 380px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #fce7f3 25%, #fff0f6 50%, #fce7f3 75%);
+  background-size: 200% 100%;
+  animation: shimmerSkeleton 1.5s infinite;
+}
+
+@keyframes shimmerSkeleton {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.error-msg {
+  color: #e11d48;
+  font-size: 1.1rem;
+  padding: 2rem;
+}
