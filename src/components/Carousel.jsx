@@ -33,9 +33,10 @@ function ProductCard({ product, index, t }) {
       </div>
       <div className="card-body">
         <h3 className="card-name">{product.name}</h3>
-        <p className="card-desc">{t('carousel.card.desc')}</p>
         <div className="card-footer">
-          <span className="card-price">${Number(product.price).toFixed(2)}</span>
+          {product.price != null && (
+            <span className="card-price">${Number(product.price).toFixed(2)}</span>
+          )}
           <button className="card-btn">{t('carousel.card.addToCart')}</button>
         </div>
       </div>

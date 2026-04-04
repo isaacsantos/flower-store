@@ -154,13 +154,6 @@
   margin-bottom: 0.4rem;
 }
 
-.card-desc {
-  font-size: 0.85rem;
-  color: #9b6b7a;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-}
-
 .card-footer {
   display: flex;
   align-items: center;

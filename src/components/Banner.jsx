@@ -32,7 +32,7 @@ export default function Banner() {
         <div className="banner-blob"></div>
         <img
           className="banner-img"
-          src="https://floreriabriceida.com/store/wp-content/uploads/100-rosas-cansasta.jpg?w=600&q=80"
+          src="https://res.cloudinary.com/dad8vzwh3/image/upload/v1775270250/1_1_oponzz.jpg?w=600&q=80"
           alt="Beautiful flower bouquet"
         />
         <div className="badge badge-1">🌹 Same-day delivery</div>
