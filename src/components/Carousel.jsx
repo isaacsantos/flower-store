@@ -2,16 +2,6 @@ import { useEffect, useState, useRef } from 'react'
 import './Carousel.css'
 import { useLocale } from '../i18n/LocaleContext'
 
-const FLOWER_IMAGES = [
-  'https://floreriabriceida.com/store/wp-content/uploads/100-rosas-cansasta.jpg?w=400&q=80',
-  'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=400&q=80',
-  'https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=400&q=80',
-  'https://floreriabriceida.com/store/wp-content/uploads/100-rosas-cansasta.jpg?w=400&q=80',
-  'https://images.unsplash.com/photo-1548460566-0a57a4592e7b?w=400&q=80',
-  'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=400&q=80',
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
-  'https://images.unsplash.com/photo-1464983953574-0892a716854b?w=400&q=80',
-]
 
 const TAG_KEYS = [
   'carousel.tag.bestseller',
@@ -24,7 +14,7 @@ const TAG_KEYS = [
 
 function ProductCard({ product, index, t }) {
   const [hovered, setHovered] = useState(false)
-  const img = FLOWER_IMAGES[index % FLOWER_IMAGES.length]
+  const img = product.images?.find(i => i.displayOrder === 0)?.url ?? ''
   const tagKey = TAG_KEYS[index % TAG_KEYS.length]
 
   return (
