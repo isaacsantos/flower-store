@@ -1,5 +1,5 @@
 import './index.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { LocaleProvider } from './i18n/LocaleContext'
 import Navbar from './components/Navbar'
 import Banner from './components/Banner'
@@ -21,7 +21,7 @@ function Home() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <LocaleProvider>
         <Navbar />
         <Routes>
@@ -31,6 +31,6 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </LocaleProvider>
-    </BrowserRouter>
+    </HashRouter>
   )
 }

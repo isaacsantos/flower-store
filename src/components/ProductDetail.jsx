@@ -34,7 +34,7 @@ export default function ProductDetail() {
   }, [id])
 
   function handleWhatsApp() {
-    const pageUrl = `${STORE_URL}/product/${product.id}`
+    const pageUrl = `${STORE_URL}/#/product/${product.id}`
     const msg = `${t('product.whatsappMsg')}${product.name}\n${pageUrl}`
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
   }
