@@ -6,6 +6,7 @@ import './ProductDetail.css'
 
 const API_BASE = import.meta.env.VITE_PRODUCTS_API_URL.replace(/\/products$/, '')
 const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER ?? ''
+const STORE_URL = import.meta.env.VITE_STORE_URL ?? ''
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -33,8 +34,9 @@ export default function ProductDetail() {
   }, [id])
 
   function handleWhatsApp() {
-    const msg = encodeURIComponent(`${t('product.whatsappMsg')}${product.name}`)
-    window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank', 'noopener')
+    const pageUrl = `${STORE_URL}/product/${product.id}`
+    const msg = `${t('product.whatsappMsg')}${product.name}\n${pageUrl}`
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
   }
 
   const images = product?.images ?? []

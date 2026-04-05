@@ -13,6 +13,7 @@ const TAG_KEYS = [
 ]
 
 const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER ?? ''
+const STORE_URL = import.meta.env.VITE_STORE_URL ?? ''
 
 const ProductCard = forwardRef(function ProductCard({ product, index, t }, ref) {
   const navigate = useNavigate()
@@ -22,8 +23,9 @@ const ProductCard = forwardRef(function ProductCard({ product, index, t }, ref) 
 
   function handleWhatsApp(e) {
     e.stopPropagation()
-    const msg = encodeURIComponent(`${t('product.whatsappMsg')}${product.name}`)
-    window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank', 'noopener')
+    const pageUrl = `${STORE_URL}/product/${product.id}`
+    const msg = `${t('product.whatsappMsg')}${product.name}\n${pageUrl}`
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
   }
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLocale } from '../i18n/LocaleContext'
 import './Marketplace.css'
@@ -26,24 +26,22 @@ export default function Marketplace() {
       .catch(() => {})
   }, [])
 
-  const fetchProducts = useCallback((pageNum, tagIds) => {
+  useEffect(() => {
+    const controller = new AbortController()
     setLoading(true)
     setError(false)
-    const params = new URLSearchParams({ page: pageNum, size: PAGE_SIZE })
-    if (tagIds.length > 0) params.set('tagIds', tagIds.join(','))
-    fetch(`${API_BASE}/products?${params}`)
+    const params = new URLSearchParams({ page, size: PAGE_SIZE })
+    if (selectedTags.length > 0) params.set('tagIds', selectedTags.join(','))
+    fetch(`${API_BASE}/products?${params}`, { signal: controller.signal })
       .then(r => { if (!r.ok) throw new Error(); return r.json() })
       .then(data => {
         setProducts(data.content ?? [])
         setTotalPages(data.totalPages ?? 1)
         setLoading(false)
       })
-      .catch(() => { setError(true); setLoading(false) })
-  }, [])
-
-  useEffect(() => {
-    fetchProducts(page, selectedTags)
-  }, [page, selectedTags, fetchProducts])
+      .catch(err => { if (err.name !== 'AbortError') { setError(true); setLoading(false) } })
+    return () => controller.abort()
+  }, [page, selectedTags])
 
   function toggleTag(id) {
     setPage(0)
