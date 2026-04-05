@@ -39,6 +39,17 @@
 }
 .footer-links li:hover { color: #f472b6; }
 
+.footer-contact-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+.footer-contact-link:hover {
+  text-decoration-color: #f472b6;
+}
+
 .footer-newsletter h4 {
   font-family: 'Playfair Display', serif;
   color: #f472b6;

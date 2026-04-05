@@ -1,0 +1,98 @@
+.nf-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff0f6 0%, #fce7f3 50%, #fff7f0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+/* Floating background petals */
+.nf-bg { position: absolute; inset: 0; pointer-events: none; }
+
+.nf-float {
+  position: absolute;
+  font-size: 2.5rem;
+  opacity: 0.45;
+  animation: nfFloat 7s ease-in-out infinite;
+}
+
+.nf-float-1 { top: 10%; left: 8%;  animation-delay: 0s;   font-size: 3rem; }
+.nf-float-2 { top: 20%; left: 85%; animation-delay: 1.5s; font-size: 2.2rem; }
+.nf-float-3 { top: 70%; left: 10%; animation-delay: 2.8s; font-size: 2rem; }
+.nf-float-4 { top: 75%; left: 80%; animation-delay: 0.9s; font-size: 2.8rem; }
+.nf-float-5 { top: 45%; left: 92%; animation-delay: 3.5s; font-size: 1.8rem; }
+
+@keyframes nfFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%       { transform: translateY(-18px) rotate(8deg); }
+  66%       { transform: translateY(8px) rotate(-6deg); }
+}
+
+/* Main content */
+.nf-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  max-width: 520px;
+  position: relative;
+  z-index: 1;
+  animation: nfFadeIn 0.7s ease both;
+}
+
+@keyframes nfFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.nf-emoji {
+  font-size: 6rem;
+  animation: nfWilt 3s ease-in-out infinite;
+  line-height: 1;
+}
+
+@keyframes nfWilt {
+  0%, 100% { transform: rotate(-5deg) scale(1); }
+  50%       { transform: rotate(5deg) scale(0.95); }
+}
+
+.nf-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  color: var(--dark);
+  line-height: 1.2;
+}
+
+.nf-sub {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #6b3a4a;
+}
+
+.nf-cta {
+  background: linear-gradient(135deg, #e11d48, #f472b6);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(225,29,72,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 44px;
+  margin-top: 0.5rem;
+}
+
+.nf-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(225,29,72,0.45);
+}
+
+@media (max-width: 640px) {
+  .nf-emoji { font-size: 4.5rem; }
+  .nf-float-2, .nf-float-5 { display: none; }
+}

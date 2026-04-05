@@ -1,6 +1,12 @@
 import './Footer.css'
 import { useLocale } from '../i18n/LocaleContext'
 
+const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER ?? ''
+
+function openWhatsApp() {
+  window.open(`https://wa.me/${WA_NUMBER}`, '_blank', 'noopener')
+}
+
 export default function Footer() {
   const { t } = useLocale()
 
@@ -26,7 +32,11 @@ export default function Footer() {
             <li>{t('footer.help.faq')}</li>
             <li>{t('footer.help.delivery')}</li>
             <li>{t('footer.help.returns')}</li>
-            <li>{t('footer.help.contact')}</li>
+            <li>
+              <span className="footer-contact-link" onClick={openWhatsApp}>
+                {t('footer.help.contact')}
+              </span>
+            </li>
           </ul>
         </div>
         <div className="footer-newsletter">

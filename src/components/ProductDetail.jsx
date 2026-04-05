@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useLocale } from '../i18n/LocaleContext'
+import NotFound from './NotFound'
 import './ProductDetail.css'
 
 const API_BASE = import.meta.env.VITE_PRODUCTS_API_URL.replace(/\/products$/, '')
@@ -13,6 +14,7 @@ export default function ProductDetail() {
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
   const [error, setError] = useState(false)
   const [imgIndex, setImgIndex] = useState(0)
 
@@ -20,9 +22,9 @@ export default function ProductDetail() {
     setLoading(true)
     setError(false)
     fetch(`${API_BASE}/products/${id}`)
-      .then(r => { if (!r.ok) throw new Error(); return r.json() })
+      .then(r => { if (r.status === 404) { setNotFound(true); setLoading(false); return null } if (!r.ok) throw new Error(); return r.json() })
       .then(data => {
-        // Sort images by displayOrder so index 0 is always the primary
+        if (!data) return
         const sorted = [...(data.images ?? [])].sort((a, b) => a.displayOrder - b.displayOrder)
         setProduct({ ...data, images: sorted })
         setLoading(false)
@@ -40,6 +42,8 @@ export default function ProductDetail() {
 
   function prev() { setImgIndex(i => (i - 1 + images.length) % images.length) }
   function next() { setImgIndex(i => (i + 1) % images.length) }
+
+  if (notFound) return <NotFound />
 
   return (
     <div className="pd-page">

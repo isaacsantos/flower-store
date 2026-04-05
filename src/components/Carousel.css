@@ -45,7 +45,8 @@
   display: flex;
   gap: 24px;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  padding: 1rem 0.5rem;
+  padding: 1rem 0;
+  will-change: transform;
 }
 
 /* Arrow buttons */
@@ -261,7 +262,7 @@
     font-size: 1.2rem;
   }
 
-  .product-card { width: 260px; }
+  .product-card { width: 240px; }
 
   .skeleton-card { width: 240px; height: 320px; }
 
