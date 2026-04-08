@@ -1,0 +1,52 @@
+.admin-home {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-home__header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+}
+
+.admin-home__logout-btn {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--cream);
+  background: var(--rose);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  min-height: 44px;
+  transition: background 0.2s ease;
+}
+
+.admin-home__logout-btn:hover {
+  background: var(--pink);
+}
+
+.admin-home__content {
+  flex: 1;
+}
+
+@media (max-width: 900px) {
+  .admin-home__header {
+    padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-home__logout-btn {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .admin-home__header {
+    justify-content: stretch;
+  }
+}

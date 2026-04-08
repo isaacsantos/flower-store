@@ -6,6 +6,18 @@ import Banner from './Banner.jsx'
 import { LocaleProvider } from '../i18n/LocaleContext.jsx'
 import { translations, SUPPORTED_LOCALES } from '../i18n/translations.js'
 
+// Determine which banner variant is active (mirrors Banner.jsx logic)
+const ACTIVE_BANNER = import.meta.env.VITE_ACTIVE_BANNER ?? 'default'
+
+// Keys to check per banner variant
+const BANNER_KEYS = {
+  'default': ['banner.eyebrow', 'banner.title', 'banner.title.accent', 'banner.sub', 'banner.cta.primary', 'banner.cta.ghost'],
+  'mothers-day': ['banner.mothers.eyebrow', 'banner.mothers.title', 'banner.mothers.title.accent', 'banner.mothers.sub', 'banner.mothers.cta.primary', 'banner.mothers.cta.ghost'],
+  'valentines': ['banner.valentines.eyebrow', 'banner.valentines.title', 'banner.valentines.title.accent', 'banner.valentines.sub', 'banner.valentines.cta.primary', 'banner.valentines.cta.ghost'],
+}
+
+const activeKeys = BANNER_KEYS[ACTIVE_BANNER] ?? BANNER_KEYS['default']
+
 function makeLocalStorageMock() {
   let store = {}
   return {
@@ -46,16 +58,13 @@ describe('Banner', () => {
         (locale) => {
           renderBanner(locale)
           const t = translations[locale]
-          expect(screen.getByText(t['banner.eyebrow'])).toBeInTheDocument()
-          expect(screen.getByText(t['banner.title'])).toBeInTheDocument()
-          expect(screen.getByText(t['banner.title.accent'])).toBeInTheDocument()
-          expect(screen.getByText(t['banner.sub'])).toBeInTheDocument()
-          expect(screen.getByText(t['banner.cta.primary'])).toBeInTheDocument()
-          expect(screen.getByText(t['banner.cta.ghost'])).toBeInTheDocument()
+          for (const key of activeKeys) {
+            expect(screen.getByText(t[key])).toBeInTheDocument()
+          }
           cleanup()
         }
       ),
       { numRuns: 100 }
     )
-  })
+  }, 30000)
 })

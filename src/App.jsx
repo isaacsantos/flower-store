@@ -1,5 +1,5 @@
 import './index.css'
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { LocaleProvider } from './i18n/LocaleContext'
 import Navbar from './components/Navbar'
 import Banner from './components/Banner'
@@ -8,6 +8,10 @@ import Footer from './components/Footer'
 import ProductDetail from './components/ProductDetail'
 import NotFound from './components/NotFound'
 import Marketplace from './components/Marketplace'
+import AdminAuthGuard from './components/AdminAuthGuard'
+import AdminLayout from './components/AdminLayout'
+import AdminLogin from './components/AdminLogin'
+import AdminHome from './components/AdminHome'
 
 function Home() {
   return (
@@ -19,17 +23,33 @@ function Home() {
   )
 }
 
+function AppContent() {
+  const { pathname } = useLocation()
+  const isAdmin = pathname.startsWith('/admin')
+  return (
+    <>
+      {!isAdmin && <Navbar />}
+      <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Marketplace />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminAuthGuard />}>
+            <Route element={<AdminLayout />}>
+              <Route index element={<AdminHome />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+    </>
+  )
+}
+
 export default function App() {
   return (
     <HashRouter>
       <LocaleProvider>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Marketplace />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppContent />
       </LocaleProvider>
     </HashRouter>
   )

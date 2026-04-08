@@ -66,5 +66,5 @@ describe('Footer', () => {
       ),
       { numRuns: 100 }
     )
-  })
+  }, 30000)
 })

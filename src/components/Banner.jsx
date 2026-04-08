@@ -100,9 +100,57 @@ function MothersDayBanner({ t }) {
   )
 }
 
+function ValentinesBanner({ t }) {
+  return (
+    <section className="banner banner--valentines" id="home">
+      {/* Full-bleed background image with overlay */}
+      <div className="vd-bg-img" />
+      <div className="vd-overlay" />
+
+      {/* Floating emojis */}
+      <div className="banner-bg">
+        <div className="vd-float vd-float-1">❤️</div>
+        <div className="vd-float vd-float-2">🌹</div>
+        <div className="vd-float vd-float-3">💋</div>
+        <div className="vd-float vd-float-4">❤️</div>
+        <div className="vd-float vd-float-5">🌹</div>
+        <div className="vd-float vd-float-6">💘</div>
+        <div className="vd-float vd-float-7">🥀</div>
+        <div className="vd-float vd-float-8">❤️‍🔥</div>
+      </div>
+
+      {/* Centered content card */}
+      <div className="vd-content">
+        <p className="banner-eyebrow vd-eyebrow">{t('banner.valentines.eyebrow')}</p>
+        <h1 className="banner-title vd-title">
+          {t('banner.valentines.title')}<br />
+          <span className="banner-accent vd-accent">{t('banner.valentines.title.accent')}</span>
+        </h1>
+        <p className="banner-sub vd-sub">{t('banner.valentines.sub')}</p>
+        <div className="banner-actions vd-actions">
+          <button className="btn-primary vd-btn-primary">{t('banner.valentines.cta.primary')}</button>
+          <button className="btn-ghost vd-btn-ghost">{t('banner.valentines.cta.ghost')}</button>
+        </div>
+        <div className="vd-badges">
+          <span className="badge vd-badge">{t('banner.valentines.badge1')}</span>
+          <span className="badge vd-badge">{t('banner.valentines.badge2')}</span>
+        </div>
+      </div>
+
+      <div className="banner-wave">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#1a0005"/>
+        </svg>
+      </div>
+    </section>
+  )
+}
+
+
 const BANNERS = {
   'default': DefaultBanner,
   'mothers-day': MothersDayBanner,
+  'valentines': ValentinesBanner,
 }
 
 export default function Banner() {

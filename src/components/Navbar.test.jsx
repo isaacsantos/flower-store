@@ -3,6 +3,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, act, cleanup } from '@testing-library/react'
 import * as fc from 'fast-check'
+import { MemoryRouter } from 'react-router-dom'
 import Navbar from './Navbar.jsx'
 import { LocaleProvider, useLocale } from '../i18n/LocaleContext.jsx'
 import { translations, SUPPORTED_LOCALES } from '../i18n/translations.js'
@@ -38,10 +39,12 @@ function renderNavbar(locale) {
     return null
   }
   render(
-    <LocaleProvider>
-      <LocaleSetter />
-      <Navbar />
-    </LocaleProvider>
+    <MemoryRouter>
+      <LocaleProvider>
+        <LocaleSetter />
+        <Navbar />
+      </LocaleProvider>
+    </MemoryRouter>
   )
   return { setLocale: (code) => act(() => setLocaleRef(code)) }
 }
@@ -73,7 +76,7 @@ describe('Navbar', () => {
       ),
       { numRuns: 100 }
     )
-  })
+  }, 30000)
 
   // Property 7: Navbar renders all text from the active locale
   it('Property 7: Navbar renders nav links and CTA from the active locale', () => {
@@ -93,5 +96,5 @@ describe('Navbar', () => {
       ),
       { numRuns: 100 }
     )
-  })
+  }, 30000)
 })

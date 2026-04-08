@@ -1,0 +1,25 @@
+.admin-layout {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background: var(--cream);
+}
+
+.admin-layout__main {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .admin-layout__main {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-layout__main {
+    padding: 1rem;
+  }
+}
