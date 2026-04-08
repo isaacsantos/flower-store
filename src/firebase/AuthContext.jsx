@@ -1,12 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, deleteUser } from 'firebase/auth'
 import { auth } from './firebaseConfig.js'
 
 const AuthContext = createContext(null)
 
 async function checkIsAdmin(firebaseUser) {
   try {
-    // Read claims from the current token (no force-refresh here to avoid loops)
     const tokenResult = await firebaseUser.getIdTokenResult()
     const roles = tokenResult.claims?.roles ?? []
     return Array.isArray(roles)
@@ -43,9 +42,17 @@ export function AuthProvider({ children }) {
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider()
     const result = await signInWithPopup(auth, provider)
-    // Force-refresh once after login so custom claims are in the token
-    // before onAuthStateChanged reads them
+
+    // Force-refresh to get the latest custom claims
     await result.user.getIdToken(true)
+    const adminStatus = await checkIsAdmin(result.user)
+
+    if (!adminStatus) {
+      // Delete the Firebase record immediately — don't leave unauthorized users registered
+      await deleteUser(result.user)
+      await signOut(auth)
+      throw Object.assign(new Error('Unauthorized'), { code: 'auth/unauthorized-email' })
+    }
   }
 
   async function logout() {

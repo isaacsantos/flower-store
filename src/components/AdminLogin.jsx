@@ -12,8 +12,9 @@ export default function AdminLogin() {
 
   // Must be before any early return — hooks rules
   useEffect(() => {
+    // If somehow a non-admin user ends up authenticated (e.g. token claims changed),
+    // sign them out reactively
     if (!loading && user && !isAdmin) {
-      setError('unauthorized')
       logout()
     }
   }, [loading, user, isAdmin])
@@ -32,7 +33,11 @@ export default function AdminLogin() {
     try {
       await signInWithGoogle()
     } catch (err) {
-      if (err?.code !== 'auth/popup-closed-by-user') {
+      if (err?.code === 'auth/popup-closed-by-user') {
+        // silent — user closed the popup
+      } else if (err?.code === 'auth/unauthorized-email') {
+        setError('unauthorized')
+      } else {
         setError('network')
       }
     } finally {
