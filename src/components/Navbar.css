@@ -24,7 +24,7 @@
   flex-shrink: 0;
 }
 
-.logo-icon { height: 2.2rem; width: auto; display: block; }
+.logo-icon { height: 2.2rem; width: auto; display: block; background: transparent; }
 
 .logo-text {
   font-family: 'Playfair Display', serif;

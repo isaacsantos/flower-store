@@ -5,12 +5,6 @@ import { useLocale } from '../i18n/LocaleContext'
 import LanguageSwitcher from './LanguageSwitcher'
 import logo from '../assets/logo.png'
 
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER ?? ''
-
-function openWhatsApp() {
-  window.open(`https://wa.me/${WA_NUMBER}`, '_blank', 'noopener')
-}
-
 export default function Navbar() {
   const { t } = useLocale()
   const navigate = useNavigate()
@@ -44,7 +38,7 @@ export default function Navbar() {
           </li>
           <li><a href="#about" onClick={close}>{t('nav.about')}</a></li>
           <li>
-            <a href="#" onClick={e => { e.preventDefault(); close(); openWhatsApp() }}>
+            <a href="#" onClick={e => { e.preventDefault(); close(); navigate('/contact') }}>
               {t('nav.contact')}
             </a>
           </li>

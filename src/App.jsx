@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import ProductDetail from './components/ProductDetail'
 import NotFound from './components/NotFound'
 import Marketplace from './components/Marketplace'
+import Contact from './components/Contact'
 import AdminAuthGuard from './components/AdminAuthGuard'
 import AdminLayout from './components/AdminLayout'
 import AdminLogin from './components/AdminLogin'
@@ -34,6 +35,7 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Marketplace />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/contact" element={<><Contact /><Footer /></>} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminAuthGuard />}>
             <Route element={<AdminLayout />}>

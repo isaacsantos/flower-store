@@ -23,8 +23,7 @@ function DefaultBanner({ t }) {
         </h1>
         <p className="banner-sub">{t('banner.sub')}</p>
         <div className="banner-actions">
-          <button className="btn-primary">{t('banner.cta.primary')}</button>
-          <button className="btn-ghost">{t('banner.cta.ghost')}</button>
+          <a href="/#/shop" className="btn-ghost">{t('banner.cta.ghost')}</a>
         </div>
       </div>
 
