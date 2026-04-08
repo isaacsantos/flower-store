@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useLocale } from '../i18n/LocaleContext.jsx'
+import { useAuth } from '../firebase/AuthContext.jsx'
 import { apiRequest, ADMIN_API_URL } from '../utils/apiClient.js'
 import ProductForm from './ProductForm.jsx'
 import './ProductsTable.css'
@@ -8,6 +9,7 @@ const PAGE_SIZE = 10
 
 export default function ProductsTable() {
   const { t } = useLocale()
+  const { user } = useAuth()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -20,7 +22,7 @@ export default function ProductsTable() {
     setLoading(true)
     setError(null)
     try {
-      const data = await apiRequest(`${ADMIN_API_URL}?page=${pageNum}&size=${PAGE_SIZE}`)
+      const data = await apiRequest(`${ADMIN_API_URL}?page=${pageNum}&size=${PAGE_SIZE}`, {}, user)
       if (Array.isArray(data)) {
         setProducts(data)
         setTotalPages(1)
@@ -33,7 +35,7 @@ export default function ProductsTable() {
     } finally {
       setLoading(false)
     }
-  }, [t])
+  }, [t, user])
 
   useEffect(() => {
     loadProducts(page)
@@ -53,7 +55,7 @@ export default function ProductsTable() {
     const confirmed = window.confirm(t('admin.products.confirm'))
     if (!confirmed) return
     try {
-      await apiRequest(`${ADMIN_API_URL}/${product.id}`, { method: 'DELETE' })
+      await apiRequest(`${ADMIN_API_URL}/${product.id}`, { method: 'DELETE' }, user)
       await loadProducts(page)
     } catch {
       setError(t('admin.products.error.delete'))

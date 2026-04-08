@@ -1,17 +1,14 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
+import { useAuth } from '../firebase/AuthContext.jsx'
 
 export default function AdminAuthGuard() {
-  const location = useLocation()
-  const token = localStorage.getItem('admin_token')
-  const hasToken = token !== null && token !== ''
+  const { user, loading, isAdmin } = useAuth()
 
-  // Authenticated user trying to access /admin/login → redirect to /admin
-  if (hasToken && location.pathname === '/admin/login') {
-    return <Navigate to="/admin" replace />
+  if (loading) {
+    return <div className="admin-auth-loading" aria-live="polite">Loading...</div>
   }
 
-  // Unauthenticated user trying to access protected routes → redirect to login
-  if (!hasToken) {
+  if (!user || !isAdmin) {
     return <Navigate to="/admin/login" replace />
   }
 

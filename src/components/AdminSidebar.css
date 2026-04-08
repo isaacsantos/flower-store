@@ -124,3 +124,34 @@
     min-height: 44px;
   }
 }
+
+/* Logout button */
+.admin-sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--cream);
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.2s, background 0.2s;
+  min-height: 44px;
+}
+
+.admin-sidebar__logout:hover {
+  opacity: 1;
+  background: color-mix(in srgb, var(--rose) 20%, transparent);
+}
+
+.admin-sidebar__logout-error {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.75rem;
+  color: var(--rose);
+  padding: 0.25rem 1rem;
+  margin: 0;
+}

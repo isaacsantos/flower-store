@@ -1,47 +1,30 @@
-// Feature: admin-module, Property 1: Guard redirige a login cuando no hay token
-// Feature: admin-module, Property 2: Guard redirige a home cuando hay token
-import { describe, it, beforeEach, afterEach } from 'vitest'
-import { render, cleanup, screen } from '@testing-library/react'
+// Feature: firebase-google-auth — AdminAuthGuard tests
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { render, screen, cleanup } from '@testing-library/react'
 import * as fc from 'fast-check'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import AdminAuthGuard from './AdminAuthGuard.jsx'
 
-function makeLocalStorageMock() {
-  let store = {}
-  return {
-    getItem: (k) => (k in store ? store[k] : null),
-    setItem: (k, v) => { store[k] = String(v) },
-    removeItem: (k) => { delete store[k] },
-    clear: () => { store = {} },
-  }
+// ─── Mocks ────────────────────────────────────────────────────────────────────
+
+let mockAuthValue = {
+  user: null,
+  isAdmin: false,
+  loading: false,
 }
 
-let lsMock = makeLocalStorageMock()
+vi.mock('../firebase/AuthContext.jsx', () => ({
+  useAuth: () => mockAuthValue,
+}))
 
-beforeEach(() => {
-  lsMock = makeLocalStorageMock()
-  Object.defineProperty(globalThis, 'localStorage', {
-    value: lsMock,
-    writable: true,
-    configurable: true,
-  })
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+const userArbitrary = fc.record({
+  email: fc.emailAddress(),
+  uid: fc.string({ minLength: 1 }),
 })
 
-afterEach(() => {
-  cleanup()
-})
-
-/**
- * Property 1 helper: guard wraps /admin (protected route).
- * /admin/login is a separate unguarded route.
- * Without token at /admin → guard redirects to /admin/login.
- */
-function renderAtAdminNoToken(token) {
-  cleanup()
-  lsMock.clear()
-  if (token !== null && token !== '') {
-    lsMock.setItem('admin_token', token)
-  }
+function renderGuardAtAdmin() {
   return render(
     <MemoryRouter initialEntries={['/admin']}>
       <Routes>
@@ -54,15 +37,7 @@ function renderAtAdminNoToken(token) {
   )
 }
 
-/**
- * Property 2 helper: guard wraps /admin/login route.
- * /admin is a separate unguarded route.
- * With token at /admin/login → guard redirects to /admin.
- */
-function renderAtLoginWithToken(token) {
-  cleanup()
-  lsMock.clear()
-  lsMock.setItem('admin_token', token)
+function renderGuardAtLogin() {
   return render(
     <MemoryRouter initialEntries={['/admin/login']}>
       <Routes>
@@ -75,39 +50,65 @@ function renderAtLoginWithToken(token) {
   )
 }
 
-describe('AdminAuthGuard', () => {
-  // Property 1: Guard redirige a login cuando no hay token
-  // Validates: Requirements 1.1, 1.4
-  it('Property 1: Guard redirige a login cuando no hay token', () => {
+beforeEach(() => {
+  mockAuthValue = { user: null, isAdmin: false, loading: false }
+})
+
+afterEach(() => {
+  cleanup()
+  vi.clearAllMocks()
+})
+
+// ─── Unit test: spinner when loading=true ─────────────────────────────────────
+
+describe('AdminAuthGuard — unit tests', () => {
+  // Validates: Requirement 4.4
+  it('shows loading indicator and does not redirect when loading=true', () => {
+    mockAuthValue = { user: null, isAdmin: false, loading: true }
+    renderGuardAtAdmin()
+    expect(screen.getByText('Loading...')).toBeTruthy()
+    expect(screen.queryByText('login-page')).toBeNull()
+    expect(screen.queryByText('admin-home')).toBeNull()
+  })
+})
+
+// ─── Property 4: Guard redirige a login cuando usuario no es admin ────────────
+
+describe('AdminAuthGuard — Property 4', () => {
+  // Feature: firebase-google-auth, Property 4: AuthGuard redirige a login cuando el usuario no es admin
+  // Validates: Requirements 4.1, 4.2
+  it('Property 4: redirects to /admin/login when user is null or isAdmin=false', () => {
     fc.assert(
       fc.property(
-        fc.option(fc.string(), { nil: null }),
-        (token) => {
-          // Only test null or empty string (absence of token)
-          const absentToken = token === null || token === '' ? token : null
-          renderAtAdminNoToken(absentToken)
-          screen.getByText('login-page')
+        fc.constantFrom(null, { email: 'x@x.com', uid: '1' }),
+        (user) => {
+          cleanup()
+          mockAuthValue = { user, isAdmin: false, loading: false }
+          renderGuardAtAdmin()
+          expect(screen.getByText('login-page')).toBeTruthy()
+          expect(screen.queryByText('admin-home')).toBeNull()
         }
       ),
       { numRuns: 100 }
     )
-    // Also explicitly test empty string
-    renderAtAdminNoToken('')
-    screen.getByText('login-page')
   })
+})
 
-  // Property 2: Guard redirige a home cuando hay token
-  // Validates: Requirements 1.2, 1.3
-  it('Property 2: Guard redirige a home cuando hay token desde login', () => {
+// ─── Property 5: Guard redirige admin desde /admin/login ─────────────────────
+
+describe('AdminAuthGuard — Property 5', () => {
+  // Feature: firebase-google-auth, Property 5: AuthGuard redirige a /admin cuando el usuario admin visita /admin/login
+  // Validates: Requirement 4.3
+  it('Property 5: redirects to /admin when isAdmin=true and visiting /admin/login', () => {
     fc.assert(
-      fc.property(
-        fc.string({ minLength: 1 }),
-        (token) => {
-          renderAtLoginWithToken(token)
-          screen.getByText('admin-home')
-        }
-      ),
-      { numRuns: 100 }
+      fc.property(userArbitrary, (user) => {
+        cleanup()
+        mockAuthValue = { user, isAdmin: true, loading: false }
+        renderGuardAtLogin()
+        expect(screen.getByText('admin-home')).toBeTruthy()
+        expect(screen.queryByText('login-page')).toBeNull()
+      }),
+      { numRuns: 50 }
     )
   })
 })

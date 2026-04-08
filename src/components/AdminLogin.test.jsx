@@ -1,110 +1,162 @@
-// Feature: admin-module, Property 3: Login rechaza campos vacíos o solo whitespace
-// Feature: admin-module, Property 4: Login persiste el token en localStorage
-import { describe, it, beforeEach } from 'vitest'
-import { render, fireEvent, screen, cleanup } from '@testing-library/react'
+// Feature: firebase-google-auth — AdminLogin tests
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { render, screen, fireEvent, act, cleanup } from '@testing-library/react'
 import * as fc from 'fast-check'
-import { MemoryRouter } from 'react-router-dom'
-import { LocaleProvider } from '../i18n/LocaleContext.jsx'
+import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import AdminLogin from './AdminLogin.jsx'
 
-function makeLocalStorageMock() {
-  let store = {}
-  return {
-    getItem: (k) => (k in store ? store[k] : null),
-    setItem: (k, v) => { store[k] = String(v) },
-    removeItem: (k) => { delete store[k] },
-    clear: () => { store = {} },
-  }
+// ─── Mocks ────────────────────────────────────────────────────────────────────
+
+let mockAuthValue = {
+  user: null,
+  isAdmin: false,
+  loading: false,
+  signInWithGoogle: vi.fn(),
+  logout: vi.fn(),
 }
 
-let lsMock = makeLocalStorageMock()
+vi.mock('../firebase/AuthContext.jsx', () => ({
+  useAuth: () => mockAuthValue,
+}))
 
-beforeEach(() => {
-  lsMock = makeLocalStorageMock()
-  Object.defineProperty(globalThis, 'localStorage', {
-    value: lsMock,
-    writable: true,
-    configurable: true,
-  })
+vi.mock('../i18n/LocaleContext.jsx', () => ({
+  useLocale: () => ({
+    t: (key) => key,
+  }),
+}))
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+const userArbitrary = fc.record({
+  email: fc.emailAddress(),
+  uid: fc.string({ minLength: 1 }),
 })
 
-function renderAdminLogin() {
+function renderLogin() {
   return render(
-    <MemoryRouter>
-      <LocaleProvider>
-        <AdminLogin />
-      </LocaleProvider>
+    <MemoryRouter initialEntries={['/admin/login']}>
+      <Routes>
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<div>admin-home</div>} />
+      </Routes>
     </MemoryRouter>
   )
 }
 
-describe('AdminLogin', () => {
-  // Property 3: Login rechaza campos vacíos o solo whitespace
-  // Validates: Requirements 2.2, 2.3
-  it('Property 3: Login rechaza campos vacíos o solo whitespace', () => {
+beforeEach(() => {
+  mockAuthValue = {
+    user: null,
+    isAdmin: false,
+    loading: false,
+    signInWithGoogle: vi.fn(),
+    logout: vi.fn(),
+  }
+})
+
+afterEach(() => {
+  cleanup()
+  vi.clearAllMocks()
+})
+
+// ─── Unit tests ───────────────────────────────────────────────────────────────
+
+describe('AdminLogin — unit tests', () => {
+  // Validates: Requirements 3.1, 8.1
+  it('renders exactly one Google button and no username/token fields', () => {
+    renderLogin()
+    const btn = screen.getByRole('button', { name: /admin\.login\.google/i })
+    expect(btn).toBeTruthy()
+    expect(screen.queryByLabelText(/username/i)).toBeNull()
+    expect(screen.queryByLabelText(/token/i)).toBeNull()
+  })
+
+  // Validates: Requirement 3.2
+  it('clicking the button calls signInWithGoogle()', async () => {
+    mockAuthValue.signInWithGoogle = vi.fn().mockResolvedValue(undefined)
+    renderLogin()
+    const btn = screen.getByRole('button', { name: /admin\.login\.google/i })
+    await act(async () => { fireEvent.click(btn) })
+    expect(mockAuthValue.signInWithGoogle).toHaveBeenCalledTimes(1)
+  })
+
+  // Validates: Requirement 3.6
+  it('popup-closed error does not show any error message', async () => {
+    const err = Object.assign(new Error('popup closed'), { code: 'auth/popup-closed-by-user' })
+    mockAuthValue.signInWithGoogle = vi.fn().mockRejectedValue(err)
+    renderLogin()
+    const btn = screen.getByRole('button', { name: /admin\.login\.google/i })
+    await act(async () => { fireEvent.click(btn) })
+    expect(screen.queryByRole('alert')).toBeNull()
+  })
+})
+
+// ─── Property 6: Login redirige cuando isAdmin=true ───────────────────────────
+
+describe('AdminLogin — Property 6', () => {
+  // Feature: firebase-google-auth, Property 6: Login con isAdmin=true redirige a /admin
+  // Validates: Requirement 3.4
+  it('Property 6: renders <Navigate to="/admin"> when isAdmin=true', () => {
     fc.assert(
-      fc.property(
-        fc.tuple(fc.string(), fc.string())
-          .filter(([u, t]) => !u.trim() || !t.trim()),
-        ([username, token]) => {
-          lsMock.clear()
-          renderAdminLogin()
+      fc.property(userArbitrary, (user) => {
+        cleanup()
+        mockAuthValue = { user, isAdmin: true, loading: false, signInWithGoogle: vi.fn(), logout: vi.fn() }
+        renderLogin()
+        expect(screen.getByText('admin-home')).toBeTruthy()
+      }),
+      { numRuns: 50 }
+    )
+  })
+})
 
-          fireEvent.change(screen.getByLabelText(/usuario|username|nom d'utilisateur|사용자 이름/i), {
-            target: { value: username },
-          })
-          fireEvent.change(screen.getByLabelText(/token/i), {
-            target: { value: token },
-          })
-          fireEvent.click(screen.getByRole('button', { name: /iniciar sesión|sign in|se connecter|로그인/i }))
+// ─── Property 7: Login muestra error y cierra sesión cuando isAdmin=false ─────
 
-          // localStorage must NOT have admin_token set
-          const stored = lsMock.getItem('admin_token')
-          if (stored !== null) {
-            throw new Error(`Expected no admin_token in localStorage, but got: ${stored}`)
-          }
+describe('AdminLogin — Property 7', () => {
+  // Feature: firebase-google-auth, Property 7: Login con isAdmin=false muestra error y cierra sesión
+  // Validates: Requirement 3.5
+  it('Property 7: shows unauthorized error and calls logout() when user is authenticated but not admin', async () => {
+    await fc.assert(
+      fc.asyncProperty(userArbitrary, async (user) => {
+        cleanup()
+        const logoutMock = vi.fn().mockResolvedValue(undefined)
+        mockAuthValue = { user, isAdmin: false, loading: false, signInWithGoogle: vi.fn(), logout: logoutMock }
+        renderLogin()
+        // Wait for the useEffect to fire
+        await act(async () => {})
+        const alert = screen.queryByRole('alert')
+        return alert !== null && alert.textContent.includes('admin.login.error.unauthorized') && logoutMock.mock.calls.length > 0
+      }),
+      { numRuns: 30 }
+    )
+  })
+})
 
-          // An error message must be visible
-          const alert = document.querySelector('[role="alert"]')
-          if (!alert) {
-            throw new Error('Expected an error alert to be shown')
-          }
+// ─── Property 8: Errores Firebase muestran mensaje ───────────────────────────
 
+describe('AdminLogin — Property 8', () => {
+  // Feature: firebase-google-auth, Property 8: Errores de Firebase (excepto popup-closed) muestran mensaje
+  // Validates: Requirements 3.6, 3.7
+  it('Property 8: non-popup-closed Firebase errors show error message; popup-closed does not', async () => {
+    const errorCodes = ['auth/network-request-failed', 'auth/internal-error', 'auth/cancelled-popup-request']
+
+    await fc.assert(
+      fc.asyncProperty(
+        fc.constantFrom(...errorCodes),
+        async (code) => {
           cleanup()
+          const err = Object.assign(new Error(code), { code })
+          mockAuthValue = {
+            user: null, isAdmin: false, loading: false,
+            signInWithGoogle: vi.fn().mockRejectedValue(err),
+            logout: vi.fn(),
+          }
+          renderLogin()
+          const btn = screen.getByRole('button', { name: /admin\.login\.google/i })
+          await act(async () => { fireEvent.click(btn) })
+          const alert = screen.queryByRole('alert')
+          return alert !== null && alert.textContent.includes('admin.login.error.network')
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 50 }
     )
-  }, 30000)
-
-  // Property 4: Login persiste el token en localStorage
-  // Validates: Requirements 2.4, 2.5
-  it('Property 4: Login persiste el token en localStorage', () => {
-    fc.assert(
-      fc.property(
-        fc.tuple(fc.string({ minLength: 1 }), fc.string({ minLength: 1 }))
-          .filter(([u, tok]) => u.trim().length > 0 && tok.trim().length > 0),
-        ([username, token]) => {
-          lsMock.clear()
-          renderAdminLogin()
-
-          fireEvent.change(screen.getByLabelText(/usuario|username|nom d'utilisateur|사용자 이름/i), {
-            target: { value: username },
-          })
-          fireEvent.change(screen.getByLabelText(/token/i), {
-            target: { value: token },
-          })
-          fireEvent.click(screen.getByRole('button', { name: /iniciar sesión|sign in|se connecter|로그인/i }))
-
-          const stored = lsMock.getItem('admin_token')
-          if (stored !== token) {
-            throw new Error(`Expected admin_token="${token}", but got: ${stored}`)
-          }
-
-          cleanup()
-        }
-      ),
-      { numRuns: 100 }
-    )
-  }, 30000)
+  })
 })

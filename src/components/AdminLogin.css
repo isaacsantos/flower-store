@@ -1,4 +1,4 @@
-/* AdminLogin — centered card layout */
+/* AdminLogin — Google OAuth centered card layout */
 
 .admin-login-page {
   min-height: 100vh;
@@ -17,6 +17,10 @@
   padding: 3rem 3.5rem;
   width: 100%;
   max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .admin-login-title {
@@ -24,46 +28,8 @@
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--dark);
-  margin-bottom: 2rem;
   text-align: center;
-}
-
-.admin-login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.admin-login-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.admin-login-label {
-  font-family: 'Lato', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--dark);
-  letter-spacing: 0.02em;
-}
-
-.admin-login-input {
-  font-family: 'Lato', sans-serif;
-  font-size: 1rem;
-  color: var(--dark);
-  background: var(--cream);
-  border: 1.5px solid color-mix(in srgb, var(--dark) 20%, transparent);
-  border-radius: 6px;
-  padding: 0.65rem 0.875rem;
-  transition: border-color 0.2s;
-  width: 100%;
-}
-
-.admin-login-input:focus {
-  outline: none;
-  border-color: var(--pink);
-  background: #fff;
+  margin: 0;
 }
 
 .admin-login-error {
@@ -75,28 +41,41 @@
   border-radius: 6px;
   padding: 0.6rem 0.875rem;
   margin: 0;
+  width: 100%;
+  text-align: center;
 }
 
-.admin-login-submit {
+.admin-login-google-btn {
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
   font-weight: 700;
-  color: #fff;
-  background: var(--rose);
-  border: none;
-  border-radius: 6px;
+  color: var(--dark);
+  background: #fff;
+  border: 1.5px solid color-mix(in srgb, var(--dark) 20%, transparent);
+  border-radius: 8px;
   padding: 0.75rem 1.5rem;
+  min-height: 44px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+  width: 100%;
+  justify-content: center;
 }
 
-.admin-login-submit:hover {
-  background: var(--pink);
+.admin-login-google-btn:hover:not(:disabled) {
+  background: var(--cream);
+  border-color: var(--pink);
 }
 
-.admin-login-submit:active {
+.admin-login-google-btn:active:not(:disabled) {
   transform: scale(0.98);
+}
+
+.admin-login-google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Tablet */
@@ -123,15 +102,9 @@
 
   .admin-login-title {
     font-size: 1.5rem;
-    margin-bottom: 1.5rem;
   }
 
-  .admin-login-submit {
-    min-height: 44px;
-    font-size: 1rem;
-  }
-
-  .admin-login-input {
+  .admin-login-google-btn {
     min-height: 44px;
     font-size: 1rem;
   }

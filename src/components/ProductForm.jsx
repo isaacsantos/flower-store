@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { useLocale } from '../i18n/LocaleContext.jsx'
+import { useAuth } from '../firebase/AuthContext.jsx'
 import { apiRequest, ADMIN_API_URL } from '../utils/apiClient.js'
 import './ProductForm.css'
 
 export default function ProductForm({ product, onClose, onSaved }) {
   const { t } = useLocale()
+  const { user } = useAuth()
   const isEdit = product != null
 
   const [name, setName] = useState(isEdit ? product.name : '')
@@ -25,7 +27,7 @@ export default function ProductForm({ product, onClose, onSaved }) {
       await apiRequest(path, {
         method,
         body: JSON.stringify({ name, price: price.trim() === '' ? null : parseFloat(price), description }),
-      })
+      }, user)
       onSaved()
       onClose()
     } catch {

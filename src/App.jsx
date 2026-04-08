@@ -1,6 +1,7 @@
 import './index.css'
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { LocaleProvider } from './i18n/LocaleContext'
+import { AuthProvider } from './firebase/AuthContext.jsx'
 import Navbar from './components/Navbar'
 import Banner from './components/Banner'
 import Carousel from './components/Carousel'
@@ -49,7 +50,9 @@ export default function App() {
   return (
     <HashRouter>
       <LocaleProvider>
-        <AppContent />
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
       </LocaleProvider>
     </HashRouter>
   )

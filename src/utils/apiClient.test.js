@@ -1,33 +1,15 @@
+// Feature: firebase-google-auth — apiClient tests
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import * as fc from 'fast-check'
 import { apiRequest } from './apiClient'
 
-// ─── localStorage mock ───────────────────────────────────────────────────────
-
-function makeLocalStorageMock() {
-  let store = {}
-  return {
-    getItem: (k) => (k in store ? store[k] : null),
-    setItem: (k, v) => { store[k] = String(v) },
-    removeItem: (k) => { delete store[k] },
-    clear: () => { store = {} },
-  }
-}
-
-let lsMock = makeLocalStorageMock()
-
 beforeEach(() => {
-  lsMock = makeLocalStorageMock()
-  Object.defineProperty(globalThis, 'localStorage', {
-    value: lsMock,
-    writable: true,
-    configurable: true,
-  })
   vi.stubGlobal('fetch', vi.fn())
 })
 
 afterEach(() => {
   vi.unstubAllGlobals()
+  vi.clearAllMocks()
 })
 
 // Helper: build a minimal Response-like object
@@ -39,109 +21,138 @@ function mockResponse(status, body = {}) {
   }
 }
 
+// Helper: build a mock Firebase user
+function makeUser(token, freshToken = token) {
+  return {
+    getIdToken: vi.fn()
+      .mockResolvedValueOnce(token)
+      .mockResolvedValue(freshToken),
+  }
+}
+
 // ─── Unit tests ──────────────────────────────────────────────────────────────
 
 describe('apiClient — unit tests', () => {
-  it('adds Authorization header when token is present', async () => {
-    lsMock.setItem('admin_token', 'my-jwt')
+  it('throws when user is null', async () => {
+    await expect(apiRequest('/admin/api/products', {}, null)).rejects.toThrow('No authenticated user')
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it('calls user.getIdToken() and injects Authorization header', async () => {
+    const user = makeUser('my-jwt')
     fetch.mockResolvedValue(mockResponse(200, { ok: true }))
 
-    await apiRequest('/admin/api/products')
+    await apiRequest('/admin/api/products', {}, user)
 
+    expect(user.getIdToken).toHaveBeenCalledWith()
     const [, opts] = fetch.mock.calls[0]
     expect(opts.headers.Authorization).toBe('Bearer my-jwt')
   })
 
-  it('does not add Authorization header when token is absent', async () => {
-    fetch.mockResolvedValue(mockResponse(200, {}))
-
-    await apiRequest('/admin/api/products')
-
-    const [, opts] = fetch.mock.calls[0]
-    expect(opts.headers.Authorization).toBeUndefined()
-  })
-
   it('returns parsed JSON on 2xx response', async () => {
-    lsMock.setItem('admin_token', 'tok')
+    const user = makeUser('tok')
     const data = [{ id: 1, name: 'Rose' }]
     fetch.mockResolvedValue(mockResponse(200, data))
 
-    const result = await apiRequest('/admin/api/products')
+    const result = await apiRequest('/admin/api/products', {}, user)
     expect(result).toEqual(data)
   })
 
-  it('throws on non-2xx response (e.g. 500)', async () => {
-    lsMock.setItem('admin_token', 'tok')
+  it('throws on non-2xx non-401 response', async () => {
+    const user = makeUser('tok')
     fetch.mockResolvedValue(mockResponse(500))
 
-    await expect(apiRequest('/admin/api/products')).rejects.toThrow('HTTP 500')
+    await expect(apiRequest('/admin/api/products', {}, user)).rejects.toThrow('HTTP 500')
   })
 
-  it('on 401: removes token, redirects to /admin/login, and throws', async () => {
-    lsMock.setItem('admin_token', 'expired-tok')
-    fetch.mockResolvedValue(mockResponse(401))
+  it('on 401: retries with fresh token; if retry also 401 → redirects and throws', async () => {
+    const user = makeUser('expired', 'fresh-tok')
+    fetch
+      .mockResolvedValueOnce(mockResponse(401))
+      .mockResolvedValueOnce(mockResponse(401))
 
-    await expect(apiRequest('/admin/api/products')).rejects.toThrow('Unauthorized')
-    expect(lsMock.getItem('admin_token')).toBeNull()
-    // jsdom prefixes the hash with '#' when reading it back
+    await expect(apiRequest('/admin/api/products', {}, user)).rejects.toThrow('Unauthorized')
+    expect(user.getIdToken).toHaveBeenCalledWith(true)
     expect(window.location.hash).toBe('#/admin/login')
+  })
+
+  it('on 401: retries with fresh token; if retry succeeds → returns data', async () => {
+    const user = makeUser('expired', 'fresh-tok')
+    fetch
+      .mockResolvedValueOnce(mockResponse(401))
+      .mockResolvedValueOnce(mockResponse(200, { ok: true }))
+
+    const result = await apiRequest('/admin/api/products', {}, user)
+    expect(result).toEqual({ ok: true })
+    expect(user.getIdToken).toHaveBeenCalledWith(true)
   })
 })
 
-// ─── Property-based tests ────────────────────────────────────────────────────
+// ─── Property 9: apiClient inyecta JWT en todas las peticiones ────────────────
 
-describe('apiClient — property tests', () => {
-  it(
-    // Feature: admin-module, Property 6: apiClient inyecta el JWT en todas las peticiones
-    'Property 6 — injects Authorization header for any token and any HTTP method',
-    async () => {
-      // Validates: Requirements 5.1, 6.4, 7.3, 8.3, 9.1, 9.3
-      await fc.assert(
-        fc.asyncProperty(
-          fc.string({ minLength: 1 }),
-          fc.constantFrom('GET', 'POST', 'PUT', 'DELETE'),
-          async (token, method) => {
-            lsMock.setItem('admin_token', token)
-            fetch.mockResolvedValue(mockResponse(200, {}))
+describe('apiClient — Property 9', () => {
+  // Feature: firebase-google-auth, Property 9: apiClient inyecta el Firebase JWT en todas las peticiones
+  // Validates: Requirements 6.1, 6.2
+  it('Property 9: injects Authorization: Bearer <token> for any token and any HTTP method', async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fc.string({ minLength: 1 }),
+        fc.constantFrom('GET', 'POST', 'PUT', 'DELETE'),
+        async (token, method) => {
+          fetch.mockResolvedValue(mockResponse(200, {}))
+          const user = makeUser(token)
 
-            await apiRequest('/admin/api/products', { method })
+          await apiRequest('/admin/api/products', { method }, user)
 
-            const [, opts] = fetch.mock.calls[fetch.mock.calls.length - 1]
-            return opts.headers.Authorization === `Bearer ${token}`
+          expect(user.getIdToken).toHaveBeenCalled()
+          const [, opts] = fetch.mock.calls[fetch.mock.calls.length - 1]
+          return opts.headers.Authorization === `Bearer ${token}`
+        }
+      ),
+      { numRuns: 100 }
+    )
+  })
+})
+
+// ─── Property 10: 401 provoca reintento con token renovado ───────────────────
+
+describe('apiClient — Property 10', () => {
+  // Feature: firebase-google-auth, Property 10: 401 provoca reintento con token renovado
+  // Validates: Requirement 6.5
+  it('Property 10: 401 response triggers getIdToken(true) and exactly one retry', async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fc.string({ minLength: 1 }),
+        fc.string({ minLength: 1 }),
+        async (originalToken, freshToken) => {
+          // Reset fetch mock for each iteration
+          fetch.mockReset()
+          fetch
+            .mockResolvedValueOnce(mockResponse(401))
+            .mockResolvedValueOnce(mockResponse(200, {}))
+
+          const user = {
+            getIdToken: vi.fn()
+              .mockResolvedValueOnce(originalToken)
+              .mockResolvedValueOnce(freshToken),
           }
-        ),
-        { numRuns: 100 }
-      )
-    }
-  )
 
-  it(
-    // Feature: admin-module, Property 10: Respuesta 401 limpia el token y redirige
-    'Property 10 — any 401 response removes token and redirects to /admin/login',
-    async () => {
-      // Validates: Requirements 9.2
-      await fc.assert(
-        fc.asyncProperty(
-          fc.string({ minLength: 1 }),
-          async (token) => {
-            lsMock.setItem('admin_token', token)
-            fetch.mockResolvedValue(mockResponse(401))
+          await apiRequest('/admin/api/products', {}, user)
 
-            try {
-              await apiRequest('/admin/api/products')
-            } catch {
-              // expected
-            }
+          // getIdToken(true) must have been called for the refresh
+          const calls = user.getIdToken.mock.calls
+          const refreshCall = calls.find((c) => c[0] === true)
+          if (!refreshCall) return false
 
-            // jsdom prefixes the hash with '#' when reading it back
-            return (
-              lsMock.getItem('admin_token') === null &&
-              window.location.hash === '#/admin/login'
-            )
-          }
-        ),
-        { numRuns: 100 }
-      )
-    }
-  )
+          // fetch must have been called exactly twice
+          if (fetch.mock.calls.length !== 2) return false
+
+          // Second fetch must use the fresh token
+          const [, retryOpts] = fetch.mock.calls[1]
+          return retryOpts.headers.Authorization === `Bearer ${freshToken}`
+        }
+      ),
+      { numRuns: 100 }
+    )
+  })
 })
