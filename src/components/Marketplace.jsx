@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useLocale } from '../i18n/LocaleContext'
 import './Marketplace.css'
 
@@ -9,9 +9,14 @@ const PAGE_SIZE = 20
 export default function Marketplace() {
   const { t } = useLocale()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const [tags, setTags] = useState([])
-  const [selectedTags, setSelectedTags] = useState([])
+  const [selectedTags, setSelectedTags] = useState(() => {
+    const params = new URLSearchParams(location.search)
+    const tag = params.get('tag')
+    return tag ? [Number(tag)] : []
+  })
   const [products, setProducts] = useState([])
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(1)

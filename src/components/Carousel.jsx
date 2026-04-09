@@ -12,41 +12,23 @@ const TAG_KEYS = [
   'carousel.tag.seasonal',
 ]
 
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER ?? ''
-const STORE_URL = import.meta.env.VITE_STORE_URL ?? ''
-
 const ProductCard = forwardRef(function ProductCard({ product, index, t }, ref) {
   const navigate = useNavigate()
-  const [hovered, setHovered] = useState(false)
   const img = product.images?.find(i => i.displayOrder === 0)?.url ?? ''
   const tagKey = TAG_KEYS[index % TAG_KEYS.length]
-
-  function handleWhatsApp(e) {
-    e.stopPropagation()
-    const pageUrl = `${STORE_URL}/#/product/${product.id}`
-    const msg = `${t('product.whatsappMsg')}${product.name}\n${pageUrl}`
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
-  }
 
   return (
     <div
       ref={ref}
-      className={`product-card ${hovered ? 'hovered' : ''}`}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{ animationDelay: `${index * 0.1}s` }}
+      className="product-card"
+      onClick={() => navigate(`/product/${product.id}`)}
+      style={{ animationDelay: `${index * 0.1}s`, cursor: 'pointer' }}
     >
       <div className="card-img-wrap">
-        <img
-          src={img}
-          alt={product.name}
-          className="card-img"
-          onClick={() => navigate(`/product/${product.id}`)}
-          style={{ cursor: 'pointer' }}
-        />
+        <img src={img} alt={product.name} className="card-img" />
         <span className="card-tag">{t(tagKey)}</span>
         <div className="card-overlay">
-          <button className="card-quick-btn" onClick={handleWhatsApp}>{t('carousel.card.quickAdd')}</button>
+          <span className="card-overlay-label">{t('carousel.card.addToCart')}</span>
         </div>
       </div>
       <div className="card-body">
@@ -55,9 +37,6 @@ const ProductCard = forwardRef(function ProductCard({ product, index, t }, ref) 
           {product.price != null && (
             <span className="card-price">${Number(product.price).toFixed(2)}</span>
           )}
-          <button className="card-btn" onClick={() => navigate(`/product/${product.id}`)}>
-            {t('carousel.card.addToCart')}
-          </button>
         </div>
       </div>
     </div>

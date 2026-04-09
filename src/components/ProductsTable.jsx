@@ -94,6 +94,7 @@ export default function ProductsTable() {
                   <th>{t('admin.products.col.description')}</th>
                   <th>{t('admin.products.col.image')}</th>
                   <th>{t('admin.products.col.active')}</th>
+                  <th>{t('admin.products.col.tags')}</th>
                   <th>{t('admin.products.col.actions')}</th>
                 </tr>
               </thead>
@@ -119,13 +120,22 @@ export default function ProductsTable() {
                           {product.active ? t('admin.products.active.yes') : t('admin.products.active.no')}
                         </span>
                       </td>
-                      <td data-label={t('admin.products.col.actions')} className="admin-products-actions">
-                        <button className="admin-products-edit-btn" onClick={() => handleEditClick(product)}>
-                          {t('admin.products.edit')}
-                        </button>
-                        <button className="admin-products-delete-btn" onClick={() => handleDeleteClick(product)}>
-                          {t('admin.products.delete')}
-                        </button>
+                      <td data-label={t('admin.products.col.tags')}>
+                        <div className="admin-products-tags">
+                          {(product.tags ?? []).map(tag => (
+                            <span key={tag.id} className="admin-products-tag">{tag.name}</span>
+                          ))}
+                        </div>
+                      </td>
+                      <td data-label={t('admin.products.col.actions')}>
+                        <div className="admin-products-actions">
+                          <button className="admin-products-edit-btn" onClick={() => handleEditClick(product)} title={t('admin.products.edit')} aria-label={t('admin.products.edit')}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                          </button>
+                          <button className="admin-products-delete-btn" onClick={() => handleDeleteClick(product)} title={t('admin.products.delete')} aria-label={t('admin.products.delete')}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   )

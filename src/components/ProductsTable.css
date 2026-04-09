@@ -75,6 +75,7 @@
 
 .admin-products-table {
   width: 100%;
+  min-width: 900px;
   border-collapse: collapse;
   background: #fff;
   font-family: 'Lato', sans-serif;
@@ -134,14 +135,18 @@
 .admin-products-edit-btn,
 .admin-products-delete-btn {
   border: none;
-  border-radius: 5px;
-  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Lato', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
-  min-height: 36px;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .admin-products-edit-btn {
@@ -243,9 +248,8 @@
 
   .admin-products-edit-btn,
   .admin-products-delete-btn {
-    min-height: 44px;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    width: 44px;
+    height: 44px;
   }
 
   .admin-products-add-btn {
@@ -322,4 +326,32 @@
 .admin-products-badge--inactive {
   background: #fef2f2;
   color: #dc2626;
+}
+
+/* Tags cell */
+.admin-products-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  max-width: 200px;
+}
+
+.admin-products-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #fce7f3;
+  color: #e11d48;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .admin-products-tags {
+    max-width: none;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+  }
 }

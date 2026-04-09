@@ -1,5 +1,6 @@
 import './Banner.css'
 import { useLocale } from '../i18n/LocaleContext'
+import { useNavigate } from 'react-router-dom'
 
 const ACTIVE_BANNER = import.meta.env.VITE_ACTIVE_BANNER ?? 'default'
 
@@ -47,7 +48,7 @@ function DefaultBanner({ t }) {
   )
 }
 
-function MothersDayBanner({ t }) {
+function MothersDayBanner({ t, navigate }) {
   return (
     <section className="banner banner--mothers" id="home">
       <div className="banner-bg">
@@ -70,8 +71,7 @@ function MothersDayBanner({ t }) {
         </h1>
         <p className="banner-sub">{t('banner.mothers.sub')}</p>
         <div className="banner-actions">
-          <button className="btn-primary md-btn-primary">{t('banner.mothers.cta.primary')}</button>
-          <button className="btn-ghost md-btn-ghost">{t('banner.mothers.cta.ghost')}</button>
+          <button className="btn-primary md-btn-primary" onClick={() => navigate('/shop?tag=1')}>{t('banner.mothers.cta.primary')}</button>
         </div>
       </div>
 
@@ -154,6 +154,7 @@ const BANNERS = {
 
 export default function Banner() {
   const { t } = useLocale()
+  const navigate = useNavigate()
   const BannerComponent = BANNERS[ACTIVE_BANNER] ?? DefaultBanner
-  return <BannerComponent t={t} />
+  return <BannerComponent t={t} navigate={navigate} />
 }

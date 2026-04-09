@@ -190,3 +190,35 @@
 .admin-form-toggle-track--on .admin-form-toggle-thumb {
   transform: translateX(22px);
 }
+
+/* Tags selector */
+.admin-form-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.admin-form-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 50px;
+  border: 2px solid #f0d6e4;
+  background: #fff;
+  color: #6b3a4a;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  user-select: none;
+}
+
+.admin-form-tag input { display: none; }
+
+.admin-form-tag--selected {
+  background: #fce7f3;
+  border-color: #e11d48;
+  color: #e11d48;
+}

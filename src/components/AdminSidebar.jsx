@@ -5,11 +5,7 @@ import { useAuth } from '../firebase/AuthContext.jsx'
 import './AdminSidebar.css'
 
 const ProductsIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-    <rect x="2" y="3" width="20" height="14" rx="2"/>
-    <line x1="8" y1="21" x2="16" y2="21"/>
-    <line x1="12" y1="17" x2="12" y2="21"/>
-  </svg>
+  <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>🌹</span>
 )
 
 const CollapseIcon = ({ collapsed }) => (
@@ -32,7 +28,7 @@ const LogoutIcon = () => (
 export default function AdminSidebar() {
   const { t } = useLocale()
   const { logout } = useAuth()
-  const [collapsed, setCollapsed] = useState(() => window.innerWidth <= 900)
+  const [collapsed, setCollapsed] = useState(true)
   const [logoutError, setLogoutError] = useState(null)
 
   async function handleLogout() {

@@ -68,7 +68,7 @@ export default function Contact() {
                 </a>
                 {branch.whatsapp && (
                   <a
-                    href={`https://wa.me/${branch.whatsapp.replace(/\D/g, '')}`}
+                    href={`https://wa.me/${branch.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(t('contact.whatsapp.msg'))}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="branch-wa-btn"
