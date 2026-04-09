@@ -1,3 +1,5 @@
+export const GEOLOCATION_ENABLED = import.meta.env.VITE_GEOLOCATION_ENABLED === 'true'
+
 export const BRANCHES = [
   {
     id: 1,
@@ -41,6 +43,7 @@ export function getNearestBranch() {
 }
 
 export function detectNearestBranch() {
+  if (!GEOLOCATION_ENABLED) return
   if (!navigator.geolocation) return
 
   navigator.geolocation.getCurrentPosition(
