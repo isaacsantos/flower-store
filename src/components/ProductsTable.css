@@ -303,3 +303,23 @@
     padding: 0.5rem 1.25rem;
   }
 }
+
+/* Active badge */
+.admin-products-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-products-badge--active {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.admin-products-badge--inactive {
+  background: #fef2f2;
+  color: #dc2626;
+}

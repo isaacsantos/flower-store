@@ -12,6 +12,7 @@ export default function ProductForm({ product, onClose, onSaved }) {
   const [name, setName] = useState(isEdit ? product.name : '')
   const [price, setPrice] = useState(isEdit && product.price != null ? String(product.price) : '')
   const [description, setDescription] = useState(isEdit ? product.description : '')
+  const [active, setActive] = useState(isEdit ? (product.active ?? true) : true)
   const [error, setError] = useState(null)
   const [saving, setSaving] = useState(false)
 
@@ -26,7 +27,7 @@ export default function ProductForm({ product, onClose, onSaved }) {
       const method = isEdit ? 'PUT' : 'POST'
       await apiRequest(path, {
         method,
-        body: JSON.stringify({ name, price: price.trim() === '' ? null : parseFloat(price), description }),
+        body: JSON.stringify({ name, price: price.trim() === '' ? null : parseFloat(price), description, active }),
       }, user)
       onSaved()
       onClose()
@@ -79,6 +80,20 @@ export default function ProductForm({ product, onClose, onSaved }) {
               required
               rows={4}
             />
+          </label>
+
+          <label className="admin-form-toggle">
+            <span>{t('admin.products.col.active')}</span>
+            <div
+              className={`admin-form-toggle-track ${active ? 'admin-form-toggle-track--on' : ''}`}
+              onClick={() => setActive(a => !a)}
+              role="switch"
+              aria-checked={active}
+              tabIndex={0}
+              onKeyDown={e => (e.key === ' ' || e.key === 'Enter') && setActive(a => !a)}
+            >
+              <div className="admin-form-toggle-thumb" />
+            </div>
           </label>
 
           <div className="admin-form-actions">

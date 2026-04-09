@@ -93,6 +93,7 @@ export default function ProductsTable() {
                   <th>{t('admin.products.col.price')}</th>
                   <th>{t('admin.products.col.description')}</th>
                   <th>{t('admin.products.col.image')}</th>
+                  <th>{t('admin.products.col.active')}</th>
                   <th>{t('admin.products.col.actions')}</th>
                 </tr>
               </thead>
@@ -112,6 +113,11 @@ export default function ProductsTable() {
                         {firstImage && (
                           <img src={firstImage.url} alt={product.name} className="admin-products-thumb" />
                         )}
+                      </td>
+                      <td data-label={t('admin.products.col.active')}>
+                        <span className={`admin-products-badge ${product.active ? 'admin-products-badge--active' : 'admin-products-badge--inactive'}`}>
+                          {product.active ? t('admin.products.active.yes') : t('admin.products.active.no')}
+                        </span>
                       </td>
                       <td data-label={t('admin.products.col.actions')} className="admin-products-actions">
                         <button className="admin-products-edit-btn" onClick={() => handleEditClick(product)}>
