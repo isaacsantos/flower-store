@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.css'
 import { useLocale } from '../i18n/LocaleContext'
+import { useAuth } from '../firebase/AuthContext'
 import LanguageSwitcher from './LanguageSwitcher'
 import logo from '../assets/logo.png'
 
 export default function Navbar() {
   const { t } = useLocale()
+  const { user, isAdmin } = useAuth()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -42,6 +44,13 @@ export default function Navbar() {
               {t('nav.contact')}
             </a>
           </li>
+          {user && isAdmin && (
+            <li>
+              <a href="#" onClick={e => { e.preventDefault(); close(); navigate('/admin') }}>
+                {t('nav.admin')}
+              </a>
+            </li>
+          )}
         </ul>
         <div className="nav-actions">
           <LanguageSwitcher />

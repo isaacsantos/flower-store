@@ -1,5 +1,5 @@
 import './index.css'
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { useEffect } from 'react'
 import { LocaleProvider } from './i18n/LocaleContext'
 import { AuthProvider } from './firebase/AuthContext.jsx'
@@ -29,11 +29,9 @@ function Home() {
 }
 
 function AppContent() {
-  const { pathname } = useLocation()
-  const isAdmin = pathname.startsWith('/admin')
   return (
     <>
-      {!isAdmin && <Navbar />}
+      <Navbar />
       <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Marketplace />} />

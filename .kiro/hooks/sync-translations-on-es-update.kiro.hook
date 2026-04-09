@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "name": "Sync Translations from Spanish",
+  "description": "When translations.js is saved, reads the Spanish (ES) keys and updates EN, FR, and KO translations using AI to keep all locale maps in sync",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "The file `flower-store/src/i18n/translations.js` was just updated. Spanish (`es`) is the source of truth for all translations.\n\nPlease:\n1. Read `flower-store/src/i18n/translations.js`\n2. Identify any keys in the `es` locale that are missing or outdated in `en`, `fr`, or `ko`\n3. Translate the Spanish values into English, French, and Korean as needed\n4. Update the file so all four locale maps (`es`, `en`, `fr`, `ko`) have identical key sets with correct translations\n\nKeep the same dot-notation key structure. Only update keys that are missing or differ from the Spanish source — do not change keys that are already correctly translated."
+  },
+  "workspaceFolderName": "store",
+  "shortName": "sync-translations-on-es-update"
+}
