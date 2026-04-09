@@ -45,7 +45,6 @@ export default function Navbar() {
         </ul>
         <div className="nav-actions">
           <LanguageSwitcher />
-          <button className="nav-cta">{t('nav.cta')}</button>
         </div>
       </div>
     </nav>

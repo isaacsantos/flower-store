@@ -2,11 +2,17 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useLocale } from '../i18n/LocaleContext'
 import NotFound from './NotFound'
+import BranchPickerModal from './BranchPickerModal'
+import { getNearestBranch, BRANCHES } from '../utils/nearestBranch'
 import './ProductDetail.css'
 
 const API_BASE = import.meta.env.VITE_PRODUCTS_API_URL.replace(/\/products$/, '')
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER ?? ''
 const STORE_URL = import.meta.env.VITE_STORE_URL ?? ''
+
+function openWhatsApp(branch, product, msg) {
+  const number = branch.whatsapp.replace(/\D/g, '')
+  window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
+}
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -18,6 +24,7 @@ export default function ProductDetail() {
   const [notFound, setNotFound] = useState(false)
   const [error, setError] = useState(false)
   const [imgIndex, setImgIndex] = useState(0)
+  const [showPicker, setShowPicker] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -33,10 +40,24 @@ export default function ProductDetail() {
       .catch(() => { setError(true); setLoading(false) })
   }, [id])
 
-  function handleWhatsApp() {
+  function buildMsg(product) {
     const pageUrl = `${STORE_URL}/#/product/${product.id}`
-    const msg = `${t('product.whatsappMsg')}${product.name}\n${pageUrl}`
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
+    return `${t('product.whatsappMsg')}${product.name}\n${pageUrl}`
+  }
+
+  function handleCta() {
+    const branch = getNearestBranch()
+    if (branch?.whatsapp) {
+      openWhatsApp(branch, product, buildMsg(product))
+    } else {
+      setShowPicker(true)
+    }
+  }
+
+  function handleBranchSelect(branch) {
+    localStorage.setItem('pb_nearest_branch', JSON.stringify(branch))
+    setShowPicker(false)
+    openWhatsApp(branch, product, buildMsg(product))
   }
 
   const images = product?.images ?? []
@@ -49,6 +70,13 @@ export default function ProductDetail() {
 
   return (
     <div className="pd-page">
+      {showPicker && (
+        <BranchPickerModal
+          onSelect={handleBranchSelect}
+          onClose={() => setShowPicker(false)}
+        />
+      )}
+
       <button className="pd-back" onClick={() => navigate(-1)}>
         {t('product.back')}
       </button>
@@ -111,7 +139,7 @@ export default function ProductDetail() {
               {product.description || t('product.defaultDesc')}
             </p>
 
-            <button className="pd-cta" onClick={handleWhatsApp}>
+            <button className="pd-cta" onClick={handleCta}>
               {t('product.cta')}
             </button>
           </div>

@@ -1,14 +1,10 @@
 import './Footer.css'
 import { useLocale } from '../i18n/LocaleContext'
-
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER ?? ''
-
-function openWhatsApp() {
-  window.open(`https://wa.me/${WA_NUMBER}`, '_blank', 'noopener')
-}
+import { useNavigate } from 'react-router-dom'
 
 export default function Footer() {
   const { t } = useLocale()
+  const navigate = useNavigate()
 
   return (
     <footer className="footer">
@@ -29,11 +25,8 @@ export default function Footer() {
         <div className="footer-links">
           <h4>{t('footer.help.heading')}</h4>
           <ul>
-            <li>{t('footer.help.faq')}</li>
-            <li>{t('footer.help.delivery')}</li>
-            <li>{t('footer.help.returns')}</li>
             <li>
-              <span className="footer-contact-link" onClick={openWhatsApp}>
+              <span className="footer-contact-link" onClick={() => navigate('/contact')}>
                 {t('footer.help.contact')}
               </span>
             </li>
