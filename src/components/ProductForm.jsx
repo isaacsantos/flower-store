@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLocale } from '../i18n/LocaleContext.jsx'
 import { useAuth } from '../firebase/AuthContext.jsx'
-import { apiRequest, ADMIN_API_URL } from '../utils/apiClient.js'
+import { apiRequest, apiUpload, ADMIN_API_URL } from '../utils/apiClient.js'
 import './ProductForm.css'
 
 const TAGS_API = import.meta.env.VITE_ADMIN_API_URL.replace(/\/products$/, '/tags')
@@ -10,6 +10,7 @@ export default function ProductForm({ product, onClose, onSaved }) {
   const { t } = useLocale()
   const { user } = useAuth()
   const isEdit = product != null
+  const fileInputRef = useRef(null)
 
   const [name, setName] = useState(isEdit ? product.name : '')
   const [price, setPrice] = useState(isEdit && product.price != null ? String(product.price) : '')
@@ -19,6 +20,12 @@ export default function ProductForm({ product, onClose, onSaved }) {
   const [selectedTagIds, setSelectedTagIds] = useState(
     isEdit ? (product.tags ?? []).map(tag => tag.id) : []
   )
+  // Images: existing (from product) + new files selected by user
+  const [existingImages, setExistingImages] = useState(
+    isEdit ? (product.images ?? []) : []
+  )
+  const [newImageFiles, setNewImageFiles] = useState([])
+  const [newImagePreviews, setNewImagePreviews] = useState([])
   const [error, setError] = useState(null)
   const [saving, setSaving] = useState(false)
 
@@ -28,6 +35,26 @@ export default function ProductForm({ product, onClose, onSaved }) {
       .then(setAvailableTags)
       .catch(() => {})
   }, [user])
+
+  function handleFileChange(e) {
+    const files = Array.from(e.target.files)
+    if (!files.length) return
+    setNewImageFiles(prev => [...prev, ...files])
+    const previews = files.map(f => URL.createObjectURL(f))
+    setNewImagePreviews(prev => [...prev, ...previews])
+    // Reset input so same file can be re-selected if removed
+    e.target.value = ''
+  }
+
+  function removeNewImage(index) {
+    URL.revokeObjectURL(newImagePreviews[index])
+    setNewImageFiles(prev => prev.filter((_, i) => i !== index))
+    setNewImagePreviews(prev => prev.filter((_, i) => i !== index))
+  }
+
+  function removeExistingImage(index) {
+    setExistingImages(prev => prev.filter((_, i) => i !== index))
+  }
 
   function toggleTag(id) {
     setSelectedTagIds(prev =>
@@ -53,6 +80,13 @@ export default function ProductForm({ product, onClose, onSaved }) {
           method: 'PUT',
           body: JSON.stringify(selectedTagIds),
         }, user)
+
+        // Upload new images if any
+        if (newImageFiles.length > 0) {
+          const formData = new FormData()
+          newImageFiles.forEach(file => formData.append('files', file))
+          await apiUpload(`${ADMIN_API_URL}/${productId}/images/upload`, formData, user)
+        }
       }
 
       onSaved()
@@ -139,6 +173,51 @@ export default function ProductForm({ product, onClose, onSaved }) {
               </div>
             </div>
           )}
+
+          {/* Images section */}
+          <div className="admin-form-label">
+            <span>{t('admin.products.col.images')}</span>
+            <div className="admin-form-images">
+              {existingImages.map((img, i) => (
+                <div key={img.id ?? img.url ?? i} className="admin-form-image-thumb">
+                  <img src={img.url} alt={t('product.imageAlt')} />
+                  <button
+                    type="button"
+                    className="admin-form-image-remove"
+                    onClick={() => removeExistingImage(i)}
+                    aria-label={t('admin.products.images.remove')}
+                  >×</button>
+                </div>
+              ))}
+              {newImagePreviews.map((src, i) => (
+                <div key={src} className="admin-form-image-thumb admin-form-image-thumb--new">
+                  <img src={src} alt={t('product.imageAlt')} />
+                  <button
+                    type="button"
+                    className="admin-form-image-remove"
+                    onClick={() => removeNewImage(i)}
+                    aria-label={t('admin.products.images.remove')}
+                  >×</button>
+                </div>
+              ))}
+              <button
+                type="button"
+                className="admin-form-image-add"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <span>+</span>
+                <span>{t('admin.products.images.add')}</span>
+              </button>
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+          </div>
 
           <div className="admin-form-actions">
             <button

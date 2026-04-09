@@ -42,3 +42,32 @@ export async function apiRequest(path, options = {}, user) {
 
   return res.json()
 }
+
+/**
+ * Upload files via multipart/form-data.
+ * Does NOT set Content-Type (browser sets it with boundary automatically).
+ */
+export async function apiUpload(path, formData, user) {
+  if (!user) throw new Error('No authenticated user')
+
+  const token = await user.getIdToken()
+
+  const doFetch = (t) =>
+    fetch(path, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${t}` },
+      body: formData,
+    })
+
+  let res = await doFetch(token)
+
+  if (res.status === 401) {
+    const freshToken = await user.getIdToken(true)
+    res = await doFetch(freshToken)
+    if (res.status === 401) throw new Error('Unauthorized')
+  }
+
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+  return res.json()
+}
