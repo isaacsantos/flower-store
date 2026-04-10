@@ -1,6 +1,6 @@
 .nf-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fff0f6 0%, #fce7f3 50%, #fff7f0 100%);
+  background: linear-gradient(135deg, #0a0e1a 0%, #0f1328 50%, #0a0e1a 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,7 +9,7 @@
   padding: 2rem;
 }
 
-/* Floating background petals */
+/* Floating background elements */
 .nf-bg { position: absolute; inset: 0; pointer-events: none; }
 
 .nf-float {
@@ -62,18 +62,18 @@
 
 .nf-title {
   font-size: clamp(2rem, 5vw, 3.2rem);
-  color: var(--dark);
+  color: #e2e8f0;
   line-height: 1.2;
 }
 
 .nf-sub {
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #6b3a4a;
+  color: #8b9dc3;
 }
 
 .nf-cta {
-  background: linear-gradient(135deg, #e11d48, #f472b6);
+  background: linear-gradient(135deg, #a855f7, #00d4ff);
   color: white;
   border: none;
   padding: 1rem 2.5rem;
@@ -81,7 +81,7 @@
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 25px rgba(225,29,72,0.35);
+  box-shadow: 0 8px 25px rgba(168,85,247,0.35);
   transition: transform 0.2s, box-shadow 0.2s;
   min-height: 44px;
   margin-top: 0.5rem;
@@ -89,7 +89,7 @@
 
 .nf-cta:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(225,29,72,0.45);
+  box-shadow: 0 12px 35px rgba(168,85,247,0.45);
 }
 
 @media (max-width: 640px) {

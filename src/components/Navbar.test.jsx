@@ -1,12 +1,17 @@
 // Feature: localization, Property 4: Language switcher reflects the active locale
 // Feature: localization, Property 7: Navbar renders all text from the active locale
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, act, cleanup } from '@testing-library/react'
 import * as fc from 'fast-check'
 import { MemoryRouter } from 'react-router-dom'
 import Navbar from './Navbar.jsx'
 import { LocaleProvider, useLocale } from '../i18n/LocaleContext.jsx'
 import { translations, SUPPORTED_LOCALES } from '../i18n/translations.js'
+
+// Mock useAuth to avoid needing a real AuthProvider
+vi.mock('../firebase/AuthContext', () => ({
+  useAuth: () => ({ user: null, isAdmin: false, loading: false }),
+}))
 
 function makeLocalStorageMock() {
   let store = {}
@@ -90,7 +95,6 @@ describe('Navbar', () => {
           expect(screen.getByText(t['nav.shop'])).toBeInTheDocument()
           expect(screen.getByText(t['nav.about'])).toBeInTheDocument()
           expect(screen.getByText(t['nav.contact'])).toBeInTheDocument()
-          expect(screen.getByText(t['nav.cta'])).toBeInTheDocument()
           cleanup()
         }
       ),

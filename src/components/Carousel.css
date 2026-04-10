@@ -1,6 +1,6 @@
 .carousel-section {
   padding: 6rem 2rem;
-  background: #fff7f0;
+  background: #0f1328;
   text-align: center;
 }
 
@@ -11,18 +11,18 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #e11d48;
+  color: #00d4ff;
   margin-bottom: 0.5rem;
 }
 
 .section-title {
   font-size: clamp(1.8rem, 4vw, 3rem);
-  color: #1a0a0f;
+  color: #e0e6ff;
   margin-bottom: 0.75rem;
 }
 
 .section-sub {
-  color: #6b3a4a;
+  color: #8b9dc3;
   font-size: 1.05rem;
 }
 
@@ -53,20 +53,20 @@
 .carousel-arrow {
   width: 52px; height: 52px;
   border-radius: 50%;
-  border: 2px solid #e11d48;
-  background: white;
-  color: #e11d48;
+  border: 2px solid #00d4ff;
+  background: #141832;
+  color: #00d4ff;
   font-size: 1.8rem;
   line-height: 1;
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.2s, color 0.2s, transform 0.2s;
-  box-shadow: 0 4px 15px rgba(225,29,72,0.15);
+  box-shadow: 0 4px 15px rgba(0,212,255,0.15);
 }
 
 .carousel-arrow:hover {
-  background: #e11d48;
-  color: white;
+  background: #00d4ff;
+  color: #0a0e1a;
   transform: scale(1.1);
 }
 
@@ -74,10 +74,10 @@
 .product-card {
   width: 300px;
   flex-shrink: 0;
-  background: white;
+  background: #141832;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   transition: transform 0.35s ease, box-shadow 0.35s ease;
   animation: cardFadeIn 0.6s ease both;
   cursor: pointer;
@@ -90,7 +90,7 @@
 
 .product-card:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 50px rgba(225,29,72,0.2);
+  box-shadow: 0 20px 50px rgba(0,212,255,0.2);
 }
 
 .card-img-wrap {
@@ -110,7 +110,7 @@
 .card-tag {
   position: absolute;
   top: 12px; left: 12px;
-  background: linear-gradient(135deg, #e11d48, #f472b6);
+  background: linear-gradient(135deg, #00d4ff, #a855f7);
   color: white;
   font-size: 0.7rem;
   font-weight: 700;
@@ -123,7 +123,7 @@
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(225,29,72,0.6);
+  background: rgba(0,212,255,0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,7 +148,7 @@
 
 .card-name {
   font-size: 1.2rem;
-  color: #1a0a0f;
+  color: #e0e6ff;
   margin-bottom: 0.4rem;
 }
 
@@ -160,8 +160,8 @@
 .card-price {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #e11d48;
-  font-family: 'Playfair Display', serif;
+  color: #39ff14;
+  font-family: 'Orbitron', sans-serif;
 }
 
 /* Dots */
@@ -175,13 +175,13 @@
 .dot {
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: #f9a8d4;
+  background: #1a1f3a;
   cursor: pointer;
   transition: background 0.3s, transform 0.3s;
 }
 
 .dot.active, .dot:hover {
-  background: #e11d48;
+  background: #00d4ff;
   transform: scale(1.3);
 }
 
@@ -196,7 +196,7 @@
 
 .loading-text {
   width: 100%;
-  color: #9b6b7a;
+  color: #8b9dc3;
   font-size: 0.95rem;
   margin-top: 0.5rem;
 }
@@ -204,7 +204,7 @@
 .skeleton-card {
   width: 300px; height: 380px;
   border-radius: 20px;
-  background: linear-gradient(90deg, #fce7f3 25%, #fff0f6 50%, #fce7f3 75%);
+  background: linear-gradient(90deg, #1a1f3a 25%, #0f1328 50%, #1a1f3a 75%);
   background-size: 200% 100%;
   animation: shimmerSkeleton 1.5s infinite;
 }
@@ -215,7 +215,7 @@
 }
 
 .error-msg {
-  color: #e11d48;
+  color: #ff4757;
   font-size: 1.1rem;
   padding: 2rem;
 }

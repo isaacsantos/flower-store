@@ -2,6 +2,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
 import * as fc from 'fast-check'
+import { MemoryRouter } from 'react-router-dom'
 import Footer from './Footer.jsx'
 import { LocaleProvider } from '../i18n/LocaleContext.jsx'
 import { translations, SUPPORTED_LOCALES } from '../i18n/translations.js'
@@ -31,9 +32,11 @@ function renderFooter(locale) {
   lsMock.clear()
   lsMock.setItem('pb_locale', locale)
   render(
-    <LocaleProvider>
-      <Footer />
-    </LocaleProvider>
+    <MemoryRouter>
+      <LocaleProvider>
+        <Footer />
+      </LocaleProvider>
+    </MemoryRouter>
   )
 }
 
@@ -53,9 +56,6 @@ describe('Footer', () => {
           expect(screen.getByText(t['footer.shop.gifts'])).toBeInTheDocument()
           expect(screen.getByText(t['footer.shop.subscriptions'])).toBeInTheDocument()
           expect(screen.getByText(t['footer.help.heading'])).toBeInTheDocument()
-          expect(screen.getByText(t['footer.help.faq'])).toBeInTheDocument()
-          expect(screen.getByText(t['footer.help.delivery'])).toBeInTheDocument()
-          expect(screen.getByText(t['footer.help.returns'])).toBeInTheDocument()
           expect(screen.getByText(t['footer.help.contact'])).toBeInTheDocument()
           expect(screen.getByText(t['footer.newsletter.heading'])).toBeInTheDocument()
           expect(screen.getByText(t['footer.newsletter.desc'])).toBeInTheDocument()

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+  <!-- Controller body -->
+  <rect x="4" y="11" width="32" height="18" rx="9" fill="#0a0e1a" stroke="#00d4ff" stroke-width="1.5"/>
+  <!-- Left grip -->
+  <path d="M8 25 Q5 31 8 36 Q11 36 13 30" fill="#0a0e1a" stroke="#00d4ff" stroke-width="1.5"/>
+  <!-- Right grip -->
+  <path d="M32 25 Q35 31 32 36 Q29 36 27 30" fill="#0a0e1a" stroke="#00d4ff" stroke-width="1.5"/>
+  <!-- D-pad vertical -->
+  <rect x="11" y="15" width="3.5" height="10" rx="1" fill="#a855f7"/>
+  <!-- D-pad horizontal -->
+  <rect x="8" y="18.5" width="10" height="3.5" rx="1" fill="#a855f7"/>
+  <!-- Buttons -->
+  <circle cx="28" cy="15.5" r="2" fill="#00d4ff"/>
+  <circle cx="32" cy="20" r="2" fill="#a855f7"/>
+  <circle cx="28" cy="24.5" r="2" fill="#00d4ff"/>
+  <circle cx="24" cy="20" r="2" fill="#a855f7"/>
+  <!-- Center button -->
+  <rect x="17" y="18.5" width="5" height="3.5" rx="1.5" fill="#00d4ff" opacity="0.5"/>
+</svg>

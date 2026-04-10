@@ -4,7 +4,7 @@ import './Navbar.css'
 import { useLocale } from '../i18n/LocaleContext'
 import { useAuth } from '../firebase/AuthContext'
 import LanguageSwitcher from './LanguageSwitcher'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo-gaming.svg'
 
 export default function Navbar() {
   const { t } = useLocale()
@@ -17,8 +17,8 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="nav-logo" onClick={() => { close(); navigate('/') }} style={{ cursor: 'pointer' }}>
-        <img src={logo} alt="El Jardin de Casa Blanca" className="logo-icon" />
-        <span className="logo-text">El Jardin de Casa Blanca</span>
+        <img src={logo} alt="Pixel Realm" className="logo-icon" />
+        <span className="logo-text">Pixel Realm</span>
       </div>
 
       <button

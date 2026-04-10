@@ -9,11 +9,11 @@ export default function NotFound() {
   return (
     <div className="nf-page">
       <div className="nf-bg">
-        <div className="nf-float nf-float-1">🌸</div>
-        <div className="nf-float nf-float-2">🌷</div>
-        <div className="nf-float nf-float-3">🌺</div>
-        <div className="nf-float nf-float-4">🍃</div>
-        <div className="nf-float nf-float-5">🌼</div>
+        <div className="nf-float nf-float-1">🎮</div>
+        <div className="nf-float nf-float-2">🕹️</div>
+        <div className="nf-float nf-float-3">👾</div>
+        <div className="nf-float nf-float-4">⚡</div>
+        <div className="nf-float nf-float-5">🏆</div>
       </div>
 
       <div className="nf-content">

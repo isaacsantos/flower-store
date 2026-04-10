@@ -1,6 +1,6 @@
 .banner {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fff0f6 0%, #fce7f3 40%, #ffe4e6 100%);
+  background: linear-gradient(135deg, #0a0e1a 0%, #0f1328 40%, #1a1f3a 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,19 +51,19 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #e11d48;
+  color: #00d4ff;
   margin-bottom: 1rem;
 }
 
 .banner-title {
   font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1.1;
-  color: #1a0a0f;
+  color: #e0e6f0;
   margin-bottom: 1.5rem;
 }
 
 .banner-accent {
-  background: linear-gradient(135deg, #e11d48, #f472b6, #f59e0b);
+  background: linear-gradient(135deg, #00d4ff, #a855f7, #ffd700);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200%;
@@ -78,14 +78,14 @@
 .banner-sub {
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #6b3a4a;
+  color: #8b9dc3;
   margin-bottom: 2.5rem;
 }
 
 .banner-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 .btn-primary {
-  background: linear-gradient(135deg, #e11d48, #f472b6);
+  background: linear-gradient(135deg, #00d4ff, #a855f7);
   color: white;
   border: none;
   padding: 0.9rem 2.2rem;
@@ -93,19 +93,19 @@
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 25px rgba(225,29,72,0.35);
+  box-shadow: 0 8px 25px rgba(0,212,255,0.35);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(225,29,72,0.45);
+  box-shadow: 0 12px 35px rgba(0,212,255,0.45);
 }
 
 .btn-ghost {
   background: transparent;
-  color: #e11d48;
-  border: 2px solid #e11d48;
+  color: #00d4ff;
+  border: 2px solid #00d4ff;
   padding: 0.9rem 2.2rem;
   border-radius: 50px;
   font-size: 1rem;
@@ -114,7 +114,7 @@
   transition: background 0.3s, color 0.3s;
 }
 
-.btn-ghost:hover { background: #e11d48; color: white; }
+.btn-ghost:hover { background: #00d4ff; color: #0a0e1a; }
 
 /* Image side */
 .banner-image-wrap {
@@ -134,7 +134,7 @@
 .banner-blob {
   position: absolute;
   width: 420px; height: 420px;
-  background: radial-gradient(circle, rgba(244,114,182,0.35) 0%, rgba(225,29,72,0.1) 70%);
+  background: radial-gradient(circle, rgba(168,85,247,0.35) 0%, rgba(0,212,255,0.1) 70%);
   border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
   animation: morphBlob 6s ease-in-out infinite;
 }
@@ -150,7 +150,7 @@
   object-fit: cover;
   border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
   animation: morphBlob 6s ease-in-out infinite, floatImg 4s ease-in-out infinite;
-  box-shadow: 0 20px 60px rgba(225,29,72,0.25);
+  box-shadow: 0 20px 60px rgba(0,212,255,0.25);
   position: relative;
   z-index: 1;
 }
@@ -162,12 +162,13 @@
 
 .badge {
   position: absolute;
-  background: white;
+  background: #1a1f3a;
+  color: #e0e6f0;
   border-radius: 50px;
   padding: 0.5rem 1rem;
   font-size: 0.8rem;
   font-weight: 700;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   z-index: 2;
   animation: popIn 0.5s ease both;
 }
@@ -254,7 +255,7 @@
    ═══════════════════════════════════════════ */
 
 .banner--mothers {
-  background: linear-gradient(135deg, #fff0f8 0%, #fce4f3 35%, #f8d7ea 65%, #ffecd2 100%);
+  background: linear-gradient(135deg, #0a0e1a 0%, #0f1328 35%, #1a1f3a 65%, #0f1328 100%);
 }
 
 /* Floating emojis */
@@ -287,7 +288,7 @@
   top: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(90deg, #c2185b, #e91e8c, #c2185b);
+  background: linear-gradient(90deg, #a855f7, #00d4ff, #a855f7);
   color: white;
   font-size: 0.75rem;
   font-weight: 700;
@@ -306,12 +307,12 @@
 
 /* Eyebrow */
 .md-eyebrow {
-  color: #c2185b !important;
+  color: #00d4ff !important;
 }
 
-/* Accent gradient — warm pinks & purples */
+/* Accent gradient — neon gaming */
 .md-accent {
-  background: linear-gradient(135deg, #c2185b, #e91e8c, #9c27b0, #e91e8c) !important;
+  background: linear-gradient(135deg, #00d4ff, #a855f7, #39ff14, #a855f7) !important;
   background-size: 300% !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
@@ -320,27 +321,27 @@
 
 /* Buttons */
 .md-btn-primary {
-  background: linear-gradient(135deg, #c2185b, #e91e8c, #9c27b0) !important;
-  box-shadow: 0 8px 25px rgba(194,24,91,0.4) !important;
+  background: linear-gradient(135deg, #00d4ff, #a855f7, #39ff14) !important;
+  box-shadow: 0 8px 25px rgba(0,212,255,0.4) !important;
 }
 
 .md-btn-primary:hover {
-  box-shadow: 0 12px 35px rgba(194,24,91,0.55) !important;
+  box-shadow: 0 12px 35px rgba(0,212,255,0.55) !important;
 }
 
 .md-btn-ghost {
-  color: #c2185b !important;
-  border-color: #c2185b !important;
+  color: #00d4ff !important;
+  border-color: #00d4ff !important;
 }
 
 .md-btn-ghost:hover {
-  background: #c2185b !important;
-  color: white !important;
+  background: #00d4ff !important;
+  color: #0a0e1a !important;
 }
 
 /* Blob */
 .md-blob {
-  background: radial-gradient(circle, rgba(233,30,140,0.3) 0%, rgba(156,39,176,0.12) 70%) !important;
+  background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, rgba(0,212,255,0.12) 70%) !important;
 }
 
 /* Heart ring orbiting the image */
@@ -376,10 +377,10 @@
   to   { transform: rotate(360deg); }
 }
 
-/* Image shape — softer, more romantic */
+/* Image shape */
 .md-img {
   border-radius: 50% 40% 60% 40% / 40% 50% 50% 60% !important;
-  box-shadow: 0 20px 60px rgba(194,24,91,0.3) !important;
+  box-shadow: 0 20px 60px rgba(0,212,255,0.3) !important;
   animation: morphBlobMD 7s ease-in-out infinite, floatImg 5s ease-in-out infinite !important;
 }
 
@@ -390,9 +391,9 @@
 
 /* Badges */
 .md-badge {
-  background: linear-gradient(135deg, #fff0f8, #fce4f3) !important;
-  border: 1px solid rgba(194,24,91,0.2) !important;
-  color: #c2185b !important;
+  background: linear-gradient(135deg, #0f1328, #1a1f3a) !important;
+  border: 1px solid rgba(0,212,255,0.2) !important;
+  color: #00d4ff !important;
 }
 
 /* ── Tablet ── */
@@ -434,7 +435,7 @@
    ═══════════════════════════════════════════ */
 
 .banner--valentines {
-  background: #1a0005;
+  background: #0a0e1a;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -453,11 +454,11 @@
   z-index: 0;
 }
 
-/* Dark red vignette overlay */
+/* Dark neon vignette overlay */
 .vd-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(80,0,10,0.3) 0%, rgba(10,0,2,0.75) 100%);
+  background: radial-gradient(ellipse at center, rgba(10,14,26,0.3) 0%, rgba(10,14,26,0.75) 100%);
   z-index: 1;
 }
 
@@ -503,7 +504,7 @@
 }
 
 .vd-eyebrow {
-  color: #ff6b8a !important;
+  color: #39ff14 !important;
   letter-spacing: 0.25em;
   margin-bottom: 1.2rem;
 }
@@ -516,16 +517,16 @@
 }
 
 .vd-accent {
-  background: linear-gradient(135deg, #ff1744, #ff6b8a, #ff4081, #e53935) !important;
+  background: linear-gradient(135deg, #00d4ff, #a855f7, #39ff14, #ffd700) !important;
   background-size: 300% !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   animation: shimmer 3s linear infinite !important;
-  filter: drop-shadow(0 0 20px rgba(255,23,68,0.6));
+  filter: drop-shadow(0 0 20px rgba(0,212,255,0.6));
 }
 
 .vd-sub {
-  color: rgba(255,220,225,0.9) !important;
+  color: rgba(200,210,230,0.9) !important;
   font-size: 1.15rem !important;
   max-width: 540px;
   margin-bottom: 2.2rem;
@@ -537,24 +538,24 @@
 }
 
 .vd-btn-primary {
-  background: linear-gradient(135deg, #c62828, #e53935, #ff1744) !important;
-  box-shadow: 0 8px 30px rgba(229,57,53,0.55) !important;
+  background: linear-gradient(135deg, #a855f7, #00d4ff, #39ff14) !important;
+  box-shadow: 0 8px 30px rgba(168,85,247,0.55) !important;
   font-size: 1.05rem !important;
 }
 
 .vd-btn-primary:hover {
-  box-shadow: 0 14px 40px rgba(229,57,53,0.7) !important;
+  box-shadow: 0 14px 40px rgba(168,85,247,0.7) !important;
 }
 
 .vd-btn-ghost {
-  color: #ff8a9a !important;
-  border-color: #ff8a9a !important;
+  color: #00d4ff !important;
+  border-color: #00d4ff !important;
 }
 
 .vd-btn-ghost:hover {
-  background: #ff1744 !important;
-  border-color: #ff1744 !important;
-  color: white !important;
+  background: #00d4ff !important;
+  border-color: #00d4ff !important;
+  color: #0a0e1a !important;
 }
 
 /* Badges row */
@@ -566,10 +567,10 @@
 }
 
 .vd-badge {
-  background: rgba(255,255,255,0.1) !important;
+  background: rgba(15,19,40,0.6) !important;
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,100,120,0.4) !important;
-  color: #ffcdd2 !important;
+  border: 1px solid rgba(0,212,255,0.4) !important;
+  color: #8b9dc3 !important;
   font-size: 0.82rem;
   padding: 0.5rem 1.1rem;
 }

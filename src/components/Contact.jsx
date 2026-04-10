@@ -31,12 +31,12 @@ export default function Contact() {
   return (
     <main className="contact-page">
       <div className="contact-bg">
-        <div className="contact-float contact-float-1">🌸</div>
-        <div className="contact-float contact-float-2">🌷</div>
-        <div className="contact-float contact-float-3">🌺</div>
-        <div className="contact-float contact-float-4">🍃</div>
-        <div className="contact-float contact-float-5">🌼</div>
-        <div className="contact-float contact-float-6">💐</div>
+        <div className="contact-float contact-float-1">🎮</div>
+        <div className="contact-float contact-float-2">🕹️</div>
+        <div className="contact-float contact-float-3">👾</div>
+        <div className="contact-float contact-float-4">⚡</div>
+        <div className="contact-float contact-float-5">🏆</div>
+        <div className="contact-float contact-float-6">🎯</div>
       </div>
       <div className="contact-hero">
         <p className="contact-eyebrow">{t('contact.eyebrow')}</p>

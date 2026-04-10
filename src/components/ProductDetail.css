@@ -28,14 +28,14 @@
   align-items: center;
   gap: 1.5rem;
   padding-top: 4rem;
-  color: #6b3a4a;
+  color: #8b9dc3;
 }
 
 .pd-skeleton-img {
   width: 380px;
   height: 380px;
   border-radius: 1.5rem;
-  background: linear-gradient(90deg, #f0d6e4 25%, #fce4f3 50%, #f0d6e4 75%);
+  background: linear-gradient(90deg, #1a1f3a 25%, #0f1328 50%, #1a1f3a 75%);
   background-size: 200% 100%;
   animation: shimmerSkeleton 1.4s infinite;
 }
@@ -82,7 +82,7 @@
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 2rem;
-  box-shadow: 0 16px 50px rgba(225,29,72,0.18);
+  box-shadow: 0 16px 50px rgba(0,212,255,0.18);
   display: block;
   animation: fadeInImg 0.35s ease both;
 }
@@ -96,7 +96,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: white;
+  background: #111633;
   border: none;
   border-radius: 50%;
   width: 44px;
@@ -104,7 +104,7 @@
   font-size: 1.6rem;
   line-height: 1;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
   color: var(--rose);
   display: flex;
   align-items: center;
@@ -115,7 +115,7 @@
 
 .pd-arrow:hover {
   transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 
 .pd-arrow--left  { left: -22px; }
@@ -131,7 +131,7 @@
   height: 10px;
   border-radius: 50%;
   border: none;
-  background: #f0d6e4;
+  background: #1a1f3a;
   cursor: pointer;
   padding: 0;
   transition: background 0.2s, transform 0.2s;
@@ -154,20 +154,20 @@
 .pd-name {
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   line-height: 1.2;
-  color: var(--dark);
+  color: #e2e8f0;
 }
 
 .pd-price {
   font-size: 2rem;
   font-weight: 700;
   color: var(--rose);
-  font-family: 'Lato', sans-serif;
+  font-family: 'Exo 2', sans-serif;
 }
 
 .pd-desc {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: #6b3a4a;
+  color: #8b9dc3;
 }
 
 .pd-cta {

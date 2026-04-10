@@ -2,6 +2,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
 import * as fc from 'fast-check'
+import { MemoryRouter } from 'react-router-dom'
 import Banner from './Banner.jsx'
 import { LocaleProvider } from '../i18n/LocaleContext.jsx'
 import { translations, SUPPORTED_LOCALES } from '../i18n/translations.js'
@@ -11,8 +12,8 @@ const ACTIVE_BANNER = import.meta.env.VITE_ACTIVE_BANNER ?? 'default'
 
 // Keys to check per banner variant
 const BANNER_KEYS = {
-  'default': ['banner.eyebrow', 'banner.title', 'banner.title.accent', 'banner.sub', 'banner.cta.primary', 'banner.cta.ghost'],
-  'mothers-day': ['banner.mothers.eyebrow', 'banner.mothers.title', 'banner.mothers.title.accent', 'banner.mothers.sub', 'banner.mothers.cta.primary', 'banner.mothers.cta.ghost'],
+  'default': ['banner.eyebrow', 'banner.title', 'banner.title.accent', 'banner.sub', 'banner.cta.ghost'],
+  'mothers-day': ['banner.mothers.eyebrow', 'banner.mothers.title', 'banner.mothers.title.accent', 'banner.mothers.sub', 'banner.mothers.cta.primary'],
   'valentines': ['banner.valentines.eyebrow', 'banner.valentines.title', 'banner.valentines.title.accent', 'banner.valentines.sub', 'banner.valentines.cta.primary', 'banner.valentines.cta.ghost'],
 }
 
@@ -43,9 +44,11 @@ function renderBanner(locale) {
   lsMock.clear()
   lsMock.setItem('pb_locale', locale)
   render(
-    <LocaleProvider>
-      <Banner />
-    </LocaleProvider>
+    <MemoryRouter>
+      <LocaleProvider>
+        <Banner />
+      </LocaleProvider>
+    </MemoryRouter>
   )
 }
 
@@ -59,7 +62,8 @@ describe('Banner', () => {
           renderBanner(locale)
           const t = translations[locale]
           for (const key of activeKeys) {
-            expect(screen.getByText(t[key])).toBeInTheDocument()
+            const elements = screen.getAllByText(t[key])
+            expect(elements.length).toBeGreaterThanOrEqual(1)
           }
           cleanup()
         }

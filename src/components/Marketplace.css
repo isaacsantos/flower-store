@@ -1,6 +1,6 @@
 .mp-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fff0f6 0%, #fce7f3 50%, #fff7f0 100%);
+  background: linear-gradient(135deg, #0a0e1a 0%, #0f1328 50%, #0a0e1a 100%);
   padding: 6rem 5rem 4rem;
   position: relative;
   overflow: hidden;
@@ -38,12 +38,12 @@
 
 .mp-title {
   font-size: clamp(2rem, 4vw, 3rem);
-  color: var(--dark);
+  color: #e2e8f0;
   margin-bottom: 0.6rem;
 }
 
 .mp-sub {
-  color: #6b3a4a;
+  color: #8b9dc3;
   font-size: 1.05rem;
 }
 
@@ -67,10 +67,10 @@
 }
 
 .mp-filter-box {
-  background: white;
+  background: #111633;
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
 .mp-filter-heading-row {
@@ -82,7 +82,7 @@
 
 .mp-filter-heading {
   font-size: 1rem;
-  color: var(--dark);
+  color: #e2e8f0;
 }
 
 .mp-clear-btn {
@@ -113,7 +113,7 @@
   border-radius: 50px;
   cursor: pointer;
   font-size: 0.9rem;
-  color: #6b3a4a;
+  color: #8b9dc3;
   transition: background 0.2s, color 0.2s;
   user-select: none;
 }
@@ -125,13 +125,13 @@
   width: 16px;
   height: 16px;
   border-radius: 4px;
-  border: 2px solid #f0d6e4;
+  border: 2px solid #1e2444;
   flex-shrink: 0;
   transition: background 0.2s, border-color 0.2s;
 }
 
 .mp-tag-item--active {
-  background: #fce7f3;
+  background: #1a1f3a;
   color: var(--rose);
   font-weight: 700;
 }
@@ -141,7 +141,7 @@
   border-color: var(--rose);
 }
 
-.mp-tag-item:hover { background: #fce7f3; color: var(--rose); }
+.mp-tag-item:hover { background: #1a1f3a; color: var(--rose); }
 
 /* Main content */
 .mp-main { flex: 1; min-width: 0; }
@@ -158,7 +158,7 @@
 .mp-skeleton {
   height: 300px;
   border-radius: 16px;
-  background: linear-gradient(90deg, #fce7f3 25%, #fff0f6 50%, #fce7f3 75%);
+  background: linear-gradient(90deg, #1a1f3a 25%, #0f1328 50%, #1a1f3a 75%);
   background-size: 200% 100%;
   animation: mpShimmer 1.4s infinite;
 }
@@ -171,7 +171,7 @@
 /* Messages */
 .mp-message {
   text-align: center;
-  color: #6b3a4a;
+  color: #8b9dc3;
   font-size: 1.05rem;
   padding: 3rem 0;
 }
@@ -180,17 +180,17 @@
 
 /* Product card */
 .mp-card {
-  background: white;
+  background: #111633;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mp-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(225,29,72,0.15);
+  box-shadow: 0 16px 40px rgba(0,212,255,0.15);
 }
 
 .mp-card-img-wrap {
@@ -211,7 +211,7 @@
 .mp-card-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(225,29,72,0.55);
+  background: rgba(0,212,255,0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,7 +238,7 @@
 
 .mp-card-name {
   font-size: 1rem;
-  color: var(--dark);
+  color: #e2e8f0;
   line-height: 1.3;
 }
 
@@ -264,9 +264,9 @@
   min-width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid #f0d6e4;
-  background: white;
-  color: #6b3a4a;
+  border: 2px solid #1e2444;
+  background: #111633;
+  color: #8b9dc3;
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
@@ -277,7 +277,7 @@
 }
 
 .mp-page-btn:hover:not(:disabled) {
-  background: #fce7f3;
+  background: #1a1f3a;
   border-color: var(--rose);
   color: var(--rose);
   transform: scale(1.1);
@@ -297,7 +297,7 @@
 }
 
 .mp-page-ellipsis {
-  color: #9b6b7a;
+  color: #5a6a8a;
   font-size: 0.9rem;
   padding: 0 0.2rem;
   line-height: 40px;

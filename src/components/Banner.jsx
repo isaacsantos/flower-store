@@ -8,12 +8,12 @@ function DefaultBanner({ t }) {
   return (
     <section className="banner" id="home">
       <div className="banner-bg">
-        <div className="petal petal-1">🌸</div>
-        <div className="petal petal-2">🌺</div>
-        <div className="petal petal-3">🌼</div>
-        <div className="petal petal-4">🌷</div>
-        <div className="petal petal-5">🌹</div>
-        <div className="petal petal-6">💐</div>
+        <div className="petal petal-1">🎮</div>
+        <div className="petal petal-2">🕹️</div>
+        <div className="petal petal-3">👾</div>
+        <div className="petal petal-4">🏆</div>
+        <div className="petal petal-5">⚡</div>
+        <div className="petal petal-6">🎯</div>
       </div>
 
       <div className="banner-content">
@@ -32,16 +32,16 @@ function DefaultBanner({ t }) {
         <div className="banner-blob"></div>
         <img
           className="banner-img"
-          src="https://res.cloudinary.com/dad8vzwh3/image/upload/v1775270250/1_1_oponzz.jpg?w=600&q=80"
-          alt="Beautiful flower bouquet"
+          src="https://images.unsplash.com/photo-1592840496694-26d035b52b48?w=600&q=80"
+          alt="Gaming controller with neon lights"
         />
-        <div className="badge badge-1">🌹 Same-day delivery</div>
-        <div className="badge badge-2">💐 100% Fresh</div>
+        <div className="badge badge-1">{t('banner.badge1')}</div>
+        <div className="badge badge-2">{t('banner.badge2')}</div>
       </div>
 
       <div className="banner-wave">
         <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#fff7f0"/>
+          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#0f1328"/>
         </svg>
       </div>
     </section>
@@ -52,15 +52,15 @@ function MothersDayBanner({ t, navigate }) {
   return (
     <section className="banner banner--mothers" id="home">
       <div className="banner-bg">
-        <div className="md-float md-float-1">🌹</div>
-        <div className="md-float md-float-2">💝</div>
-        <div className="md-float md-float-3">🌸</div>
-        <div className="md-float md-float-4">💖</div>
-        <div className="md-float md-float-5">🌷</div>
-        <div className="md-float md-float-6">💕</div>
-        <div className="md-float md-float-7">🌺</div>
-        <div className="md-float md-float-8">💗</div>
-        <div className="md-ribbon">Happy Mother's Day</div>
+        <div className="md-float md-float-1">🎮</div>
+        <div className="md-float md-float-2">🕹️</div>
+        <div className="md-float md-float-3">👾</div>
+        <div className="md-float md-float-4">🏆</div>
+        <div className="md-float md-float-5">⚡</div>
+        <div className="md-float md-float-6">🎯</div>
+        <div className="md-float md-float-7">🎮</div>
+        <div className="md-float md-float-8">👾</div>
+        <div className="md-ribbon">{t('banner.mothers.eyebrow')}</div>
       </div>
 
       <div className="banner-content">
@@ -78,13 +78,13 @@ function MothersDayBanner({ t, navigate }) {
       <div className="banner-image-wrap">
         <div className="banner-blob md-blob"></div>
         <div className="md-heart-ring">
-          <span>💗</span><span>🌹</span><span>💗</span><span>🌹</span>
-          <span>💗</span><span>🌹</span><span>💗</span><span>🌹</span>
+          <span>🎮</span><span>🕹️</span><span>🎮</span><span>🕹️</span>
+          <span>🎮</span><span>🕹️</span><span>🎮</span><span>🕹️</span>
         </div>
         <img
           className="banner-img md-img"
-          src="https://res.cloudinary.com/dad8vzwh3/image/upload/v1775401861/11_1_nnraiu.jpg?w=600&q=80"
-          alt="Mother's Day flower bouquet"
+          src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=600&q=80"
+          alt="Gaming headset with neon lights"
         />
         <div className="badge md-badge badge-1">{t('banner.mothers.badge1')}</div>
         <div className="badge md-badge badge-2">{t('banner.mothers.badge2')}</div>
@@ -92,7 +92,7 @@ function MothersDayBanner({ t, navigate }) {
 
       <div className="banner-wave">
         <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#fff0f8"/>
+          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#0f1328"/>
         </svg>
       </div>
     </section>
@@ -108,14 +108,14 @@ function ValentinesBanner({ t }) {
 
       {/* Floating emojis */}
       <div className="banner-bg">
-        <div className="vd-float vd-float-1">❤️</div>
-        <div className="vd-float vd-float-2">🌹</div>
-        <div className="vd-float vd-float-3">💋</div>
-        <div className="vd-float vd-float-4">❤️</div>
-        <div className="vd-float vd-float-5">🌹</div>
-        <div className="vd-float vd-float-6">💘</div>
-        <div className="vd-float vd-float-7">🥀</div>
-        <div className="vd-float vd-float-8">❤️‍🔥</div>
+        <div className="vd-float vd-float-1">🎮</div>
+        <div className="vd-float vd-float-2">🕹️</div>
+        <div className="vd-float vd-float-3">👾</div>
+        <div className="vd-float vd-float-4">🏆</div>
+        <div className="vd-float vd-float-5">⚡</div>
+        <div className="vd-float vd-float-6">🎯</div>
+        <div className="vd-float vd-float-7">🎮</div>
+        <div className="vd-float vd-float-8">👾</div>
       </div>
 
       {/* Centered content card */}
@@ -138,7 +138,7 @@ function ValentinesBanner({ t }) {
 
       <div className="banner-wave">
         <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#1a0005"/>
+          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#0f1328"/>
         </svg>
       </div>
     </section>

@@ -10,7 +10,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <span className="footer-logo">🌸 El Jardin de Casa Blanca</span>
+          <span className="footer-logo">🎮 Pixel Realm</span>
           <p>{t('footer.tagline')}</p>
         </div>
         <div className="footer-links">

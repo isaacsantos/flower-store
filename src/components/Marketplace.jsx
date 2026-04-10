@@ -68,12 +68,12 @@ export default function Marketplace() {
   return (
     <div className="mp-page">
       <div className="mp-bg">
-        <div className="mp-float mp-float-1">🌸</div>
-        <div className="mp-float mp-float-2">🌷</div>
-        <div className="mp-float mp-float-3">🌺</div>
-        <div className="mp-float mp-float-4">🍃</div>
-        <div className="mp-float mp-float-5">🌼</div>
-        <div className="mp-float mp-float-6">💐</div>
+        <div className="mp-float mp-float-1">🎮</div>
+        <div className="mp-float mp-float-2">🕹️</div>
+        <div className="mp-float mp-float-3">👾</div>
+        <div className="mp-float mp-float-4">⚡</div>
+        <div className="mp-float mp-float-5">🏆</div>
+        <div className="mp-float mp-float-6">🎯</div>
       </div>
       <div className="mp-header">
         <h1 className="mp-title">{t('marketplace.title')}</h1>
