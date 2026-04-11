@@ -92,20 +92,32 @@ export default function Marketplace() {
                 </button>
               )}
             </div>
-            <ul className="mp-tag-list">
-              {tags.map(tag => (
-                <li key={tag.id}>
-                  <label className={`mp-tag-item ${selectedTags.includes(tag.id) ? 'mp-tag-item--active' : ''}`}>
-                    <input
-                      type="checkbox"
-                      checked={selectedTags.includes(tag.id)}
-                      onChange={() => toggleTag(tag.id)}
-                    />
-                    <span>{tag.name}</span>
-                  </label>
-                </li>
-              ))}
-            </ul>
+            {Object.entries(
+              tags.reduce((groups, tag) => {
+                const type = tag.type || 'Other'
+                if (!groups[type]) groups[type] = []
+                groups[type].push(tag)
+                return groups
+              }, {})
+            ).map(([type, groupTags]) => (
+              <div key={type} className="mp-filter-group">
+                <h4 className="mp-filter-group-title">{type}</h4>
+                <ul className="mp-tag-list">
+                  {groupTags.map(tag => (
+                    <li key={tag.id}>
+                      <label className={`mp-tag-item ${selectedTags.includes(tag.id) ? 'mp-tag-item--active' : ''}`}>
+                        <input
+                          type="checkbox"
+                          checked={selectedTags.includes(tag.id)}
+                          onChange={() => toggleTag(tag.id)}
+                        />
+                        <span>{tag.name}</span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </aside>
 
