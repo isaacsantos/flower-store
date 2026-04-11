@@ -3,6 +3,7 @@ import { useLocale } from '../i18n/LocaleContext.jsx'
 import { useAuth } from '../firebase/AuthContext.jsx'
 import { apiRequest, ADMIN_API_URL } from '../utils/apiClient.js'
 import ProductForm from './ProductForm.jsx'
+import AiProductModal from './AiProductModal.jsx'
 import './ProductsTable.css'
 
 const PAGE_SIZE = 10
@@ -14,6 +15,7 @@ export default function ProductsTable() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showForm, setShowForm] = useState(false)
+  const [showAiModal, setShowAiModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
@@ -76,6 +78,9 @@ export default function ProductsTable() {
         <h2 className="admin-products-title">{t('admin.products.title')}</h2>
         <button className="admin-products-add-btn" onClick={handleAddClick}>
           {t('admin.products.add')}
+        </button>
+        <button className="admin-products-ai-btn" onClick={() => setShowAiModal(true)}>
+          {t('admin.ai.button')}
         </button>
       </div>
 
@@ -174,6 +179,10 @@ export default function ProductsTable() {
           onClose={() => setShowForm(false)}
           onSaved={() => loadProducts(page)}
         />
+      )}
+
+      {showAiModal && (
+        <AiProductModal onClose={() => setShowAiModal(false)} />
       )}
     </div>
   )

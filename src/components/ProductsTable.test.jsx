@@ -2,6 +2,7 @@
 // Feature: admin-module, Property 8: Acciones por fila coinciden con el número de productos
 import { describe, it, beforeEach } from 'vitest'
 import { render, screen, cleanup, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import * as fc from 'fast-check'
 import { MemoryRouter } from 'react-router-dom'
 import { LocaleProvider } from '../i18n/LocaleContext.jsx'
@@ -9,11 +10,20 @@ import ProductsTable from './ProductsTable.jsx'
 import { apiRequest } from '../utils/apiClient.js'
 
 vi.mock('../utils/apiClient', () => ({
-  apiRequest: vi.fn()
+  apiRequest: vi.fn(),
+  ADMIN_API_URL: 'http://localhost/admin/api/products',
+}))
+
+vi.mock('../firebase/AuthContext.jsx', () => ({
+  useAuth: () => ({ user: { getIdToken: vi.fn().mockResolvedValue('token') }, loading: false, isAdmin: true })
 }))
 
 vi.mock('./ProductForm.jsx', () => ({
   default: () => <div data-testid="product-form">ProductForm</div>
+}))
+
+vi.mock('./AiProductModal.jsx', () => ({
+  default: ({ onClose }) => <div data-testid="ai-product-modal"><button onClick={onClose}>close-ai</button></div>
 }))
 
 vi.stubGlobal('confirm', vi.fn(() => false))
@@ -100,4 +110,27 @@ describe('ProductsTable', () => {
       { numRuns: 50 }
     )
   }, 60000)
+
+  // Unit test: Renderizado del botón "Crear Productos con IA" (Req 1.1)
+  it('renders the AI product creation button', async () => {
+    apiRequest.mockResolvedValue([])
+    renderProductsTable()
+
+    const aiButton = await screen.findByText('Crear Productos con IA')
+    expect(aiButton).toBeInTheDocument()
+    expect(aiButton.tagName).toBe('BUTTON')
+  })
+
+  // Unit test: Apertura del modal al hacer clic en el botón (Req 1.2)
+  it('opens AiProductModal when AI button is clicked', async () => {
+    apiRequest.mockResolvedValue([])
+    renderProductsTable()
+
+    const aiButton = await screen.findByText('Crear Productos con IA')
+    expect(screen.queryByTestId('ai-product-modal')).not.toBeInTheDocument()
+
+    await userEvent.click(aiButton)
+
+    expect(screen.getByTestId('ai-product-modal')).toBeInTheDocument()
+  })
 })

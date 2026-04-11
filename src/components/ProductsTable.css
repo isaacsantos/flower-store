@@ -37,6 +37,25 @@
   background: var(--pink);
 }
 
+.admin-products-ai-btn {
+  background: transparent;
+  color: var(--rose);
+  border: 2px solid var(--rose);
+  border-radius: 6px;
+  padding: 0.6rem 1.25rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 44px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-products-ai-btn:hover {
+  background: var(--rose);
+  color: #fff;
+}
+
 .admin-products-error {
   background: #fef2f2;
   border: 1px solid var(--rose);
@@ -253,6 +272,11 @@
   }
 
   .admin-products-add-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .admin-products-ai-btn {
     width: 100%;
     text-align: center;
   }

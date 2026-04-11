@@ -33,6 +33,7 @@ export async function apiRequest(path, options = {}, user) {
       throw new Error(`HTTP ${retryRes.status}`)
     }
 
+    if (retryRes.status === 204) return null
     return retryRes.json()
   }
 
@@ -40,6 +41,7 @@ export async function apiRequest(path, options = {}, user) {
     throw new Error(`HTTP ${res.status}`)
   }
 
+  if (res.status === 204) return null
   return res.json()
 }
 
@@ -70,4 +72,32 @@ export async function apiUpload(path, formData, user) {
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
 
   return res.json()
+}
+
+/**
+ * Upload files via multipart/form-data and return the raw Response object.
+ * Same token injection and 401 retry logic as apiUpload, but does NOT parse JSON.
+ * Useful for endpoints that may return non-JSON bodies (e.g. HTTP 202 with empty body).
+ */
+export async function apiUploadRaw(path, formData, user) {
+  if (!user) throw new Error('No authenticated user')
+
+  const token = await user.getIdToken()
+
+  const doFetch = (t) =>
+    fetch(path, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${t}` },
+      body: formData,
+    })
+
+  let res = await doFetch(token)
+
+  if (res.status === 401) {
+    const freshToken = await user.getIdToken(true)
+    res = await doFetch(freshToken)
+    if (res.status === 401) throw new Error('Unauthorized')
+  }
+
+  return res
 }
