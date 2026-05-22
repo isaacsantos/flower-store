@@ -22,6 +22,8 @@ export default function Marketplace() {
   const [totalPages, setTotalPages] = useState(1)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [expandedGroups, setExpandedGroups] = useState({})
 
   // Fetch tags once
   useEffect(() => {
@@ -83,7 +85,12 @@ export default function Marketplace() {
       <div className="mp-layout">
         {/* Sidebar filters */}
         <aside className="mp-sidebar">
-          <div className="mp-filter-box">
+          <button className="mp-filter-toggle" onClick={() => setFiltersOpen(prev => !prev)}>
+            {selectedTags.length > 0
+              ? t('marketplace.filter.activeCount').replace('{count}', selectedTags.length)
+              : t('marketplace.filter.toggle')}
+          </button>
+          <div className={`mp-filter-box ${!filtersOpen ? 'mp-filter-box--collapsed' : ''}`}>
             <div className="mp-filter-heading-row">
               <h3 className="mp-filter-heading">{t('marketplace.filter.heading')}</h3>
               {selectedTags.length > 0 && (
@@ -98,11 +105,14 @@ export default function Marketplace() {
                 if (!groups[type]) groups[type] = []
                 groups[type].push(tag)
                 return groups
-              }, {})
+              }, Object.create(null))
             ).map(([type, groupTags]) => (
               <div key={type} className="mp-filter-group">
-                <h4 className="mp-filter-group-title">{type}</h4>
-                <ul className="mp-tag-list">
+                <button className="mp-group-toggle" onClick={() => setExpandedGroups(prev => ({ ...prev, [type]: !prev[type] }))}>
+                  <span>{type}</span>
+                  <span>{expandedGroups[type] ? '▾' : '▸'}</span>
+                </button>
+                <ul className={`mp-tag-list ${!expandedGroups[type] ? 'mp-tag-list--collapsed' : ''}`}>
                   {groupTags.map(tag => (
                     <li key={tag.id}>
                       <label className={`mp-tag-item ${selectedTags.includes(tag.id) ? 'mp-tag-item--active' : ''}`}>
