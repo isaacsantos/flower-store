@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useLocale } from '../i18n/LocaleContext.jsx'
 import { useAuth } from '../firebase/AuthContext.jsx'
 import { apiRequest, ADMIN_API_URL } from '../utils/apiClient.js'
@@ -11,6 +11,8 @@ const PAGE_SIZE = 10
 export default function ProductsTable() {
   const { t } = useLocale()
   const { user } = useAuth()
+  const userRef = useRef(user)
+  userRef.current = user
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -19,12 +21,13 @@ export default function ProductsTable() {
   const [editingProduct, setEditingProduct] = useState(null)
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
+  const [togglingIds, setTogglingIds] = useState(new Set())
 
   const loadProducts = useCallback(async (pageNum = 0) => {
     setLoading(true)
     setError(null)
     try {
-      const data = await apiRequest(`${ADMIN_API_URL}?page=${pageNum}&size=${PAGE_SIZE}`, {}, user)
+      const data = await apiRequest(`${ADMIN_API_URL}?page=${pageNum}&size=${PAGE_SIZE}`, {}, userRef.current)
       if (Array.isArray(data)) {
         setProducts(data)
         setTotalPages(1)
@@ -37,7 +40,8 @@ export default function ProductsTable() {
     } finally {
       setLoading(false)
     }
-  }, [t, user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     loadProducts(page)
@@ -57,10 +61,29 @@ export default function ProductsTable() {
     const confirmed = window.confirm(t('admin.products.confirm'))
     if (!confirmed) return
     try {
-      await apiRequest(`${ADMIN_API_URL}/${product.id}`, { method: 'DELETE' }, user)
+      await apiRequest(`${ADMIN_API_URL}/${product.id}`, { method: 'DELETE' }, userRef.current)
       await loadProducts(page)
     } catch {
       setError(t('admin.products.error.delete'))
+    }
+  }
+
+  async function handleToggleActive(product) {
+    setTogglingIds(prev => new Set(prev).add(product.id))
+    try {
+      await apiRequest(`${ADMIN_API_URL}/${product.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ ...product, active: !product.active })
+      }, userRef.current)
+      setProducts(prev => prev.map(p => p.id === product.id ? { ...p, active: !p.active } : p))
+    } catch {
+      setError(t('admin.products.error.toggle'))
+    } finally {
+      setTogglingIds(prev => {
+        const next = new Set(prev)
+        next.delete(product.id)
+        return next
+      })
     }
   }
 
@@ -121,9 +144,14 @@ export default function ProductsTable() {
                         )}
                       </td>
                       <td data-label={t('admin.products.col.active')}>
-                        <span className={`admin-products-badge ${product.active ? 'admin-products-badge--active' : 'admin-products-badge--inactive'}`}>
+                        <button
+                          className={`admin-products-toggle-btn ${product.active ? 'admin-products-toggle-btn--active' : 'admin-products-toggle-btn--inactive'}`}
+                          onClick={() => handleToggleActive(product)}
+                          disabled={togglingIds.has(product.id)}
+                          aria-label={t(product.active ? 'admin.products.toggle.deactivate' : 'admin.products.toggle.activate')}
+                        >
                           {product.active ? t('admin.products.active.yes') : t('admin.products.active.no')}
-                        </span>
+                        </button>
                       </td>
                       <td data-label={t('admin.products.col.tags')}>
                         <div className="admin-products-tags">
