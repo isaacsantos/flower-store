@@ -111,7 +111,23 @@
 
 @media (max-width: 640px) {
   .admin-sidebar {
-    width: 60px;
+    flex-direction: row;
+    width: 100%;
+    min-height: auto;
+    padding: 0.5rem 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .admin-sidebar--collapsed {
+    width: 100%;
+  }
+
+  .admin-sidebar__nav {
+    flex-direction: row;
+    padding: 0;
+    gap: 0.25rem;
   }
 
   .admin-sidebar__label {
@@ -122,6 +138,24 @@
   .admin-sidebar__toggle {
     justify-content: center;
     min-height: 44px;
+    padding: 0.5rem;
+  }
+
+  .admin-sidebar__toggle {
+    margin: 0;
+    width: auto;
+  }
+
+  .admin-sidebar__logout {
+    padding: 0.5rem;
+    width: auto;
+    margin-left: auto;
+  }
+
+  .admin-sidebar__logout-error {
+    position: absolute;
+    top: 100%;
+    right: 1rem;
   }
 }
 

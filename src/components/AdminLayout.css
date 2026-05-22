@@ -19,6 +19,10 @@
 }
 
 @media (max-width: 640px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
   .admin-layout__main {
     padding: 1rem;
   }
