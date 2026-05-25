@@ -2,17 +2,13 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useLocale } from '../i18n/LocaleContext'
 import NotFound from './NotFound'
-import BranchPickerModal from './BranchPickerModal'
-import { getNearestBranch, BRANCHES } from '../utils/nearestBranch'
+import ChannelPickerModal from './ChannelPickerModal'
 import './ProductDetail.css'
 
 const API_BASE = import.meta.env.VITE_PRODUCTS_API_URL.replace(/\/products$/, '')
 const STORE_URL = import.meta.env.VITE_STORE_URL ?? ''
-
-function openWhatsApp(branch, product, msg) {
-  const number = branch.whatsapp.replace(/\D/g, '')
-  window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
-}
+const WHATSAPP = import.meta.env.VITE_BRANCH1_WHATSAPP ?? ''
+const MESSENGER = import.meta.env.VITE_FACEBOOK_MESSENGER ?? ''
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -46,18 +42,18 @@ export default function ProductDetail() {
   }
 
   function handleCta() {
-    const branch = getNearestBranch()
-    if (branch?.whatsapp) {
-      openWhatsApp(branch, product, buildMsg(product))
-    } else {
-      setShowPicker(true)
-    }
+    setShowPicker(true)
   }
 
-  function handleBranchSelect(branch) {
-    localStorage.setItem('pb_nearest_branch', JSON.stringify(branch))
+  function handleChannelSelect(channel) {
     setShowPicker(false)
-    openWhatsApp(branch, product, buildMsg(product))
+    const msg = buildMsg(product)
+    if (channel === 'whatsapp' && WHATSAPP) {
+      const number = WHATSAPP.replace(/\D/g, '')
+      window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
+    } else if (channel === 'messenger' && MESSENGER) {
+      window.open(`https://m.me/${MESSENGER}`, '_blank', 'noopener')
+    }
   }
 
   const images = product?.images ?? []
@@ -71,8 +67,8 @@ export default function ProductDetail() {
   return (
     <div className="pd-page">
       {showPicker && (
-        <BranchPickerModal
-          onSelect={handleBranchSelect}
+        <ChannelPickerModal
+          onSelect={handleChannelSelect}
           onClose={() => setShowPicker(false)}
         />
       )}

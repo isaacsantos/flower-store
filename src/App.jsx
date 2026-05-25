@@ -1,6 +1,5 @@
 import './index.css'
 import { HashRouter, Routes, Route } from 'react-router-dom'
-import { useEffect } from 'react'
 import { LocaleProvider } from './i18n/LocaleContext'
 import { AuthProvider } from './firebase/AuthContext.jsx'
 import Navbar from './components/Navbar'
@@ -15,10 +14,8 @@ import AdminAuthGuard from './components/AdminAuthGuard'
 import AdminLayout from './components/AdminLayout'
 import AdminLogin from './components/AdminLogin'
 import AdminHome from './components/AdminHome'
-import { detectNearestBranch } from './utils/nearestBranch'
 
 function Home() {
-  useEffect(() => { detectNearestBranch() }, [])
   return (
     <>
       <Banner />
