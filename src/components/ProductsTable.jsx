@@ -16,6 +16,8 @@ export default function ProductsTable() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [showAiModal, setShowAiModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
@@ -27,7 +29,9 @@ export default function ProductsTable() {
     setLoading(true)
     setError(null)
     try {
-      const data = await apiRequest(`${ADMIN_API_URL}?page=${pageNum}&size=${PAGE_SIZE}`, {}, userRef.current)
+      const params = new URLSearchParams({ page: pageNum, size: PAGE_SIZE })
+      if (debouncedSearch.trim()) params.set('search', debouncedSearch.trim())
+      const data = await apiRequest(`${ADMIN_API_URL}?${params}`, {}, userRef.current)
       if (Array.isArray(data)) {
         setProducts(data)
         setTotalPages(1)
@@ -41,11 +45,20 @@ export default function ProductsTable() {
       setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [debouncedSearch])
 
   useEffect(() => {
     loadProducts(page)
   }, [loadProducts, page])
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search)
+      setPage(0)
+    }, 400)
+    return () => clearTimeout(timer)
+  }, [search])
 
   function handleAddClick() {
     setEditingProduct(null)
@@ -105,6 +118,16 @@ export default function ProductsTable() {
         <button className="admin-products-ai-btn" onClick={() => setShowAiModal(true)}>
           {t('admin.ai.button')}
         </button>
+      </div>
+
+      <div className="admin-products-search-wrap">
+        <input
+          type="text"
+          className="admin-products-search-input"
+          placeholder={t('admin.products.search.placeholder')}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
       {error && <div className="admin-products-error">{error}</div>}

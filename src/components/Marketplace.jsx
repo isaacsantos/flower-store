@@ -17,6 +17,8 @@ export default function Marketplace() {
     const tag = params.get('tag')
     return tag ? [Number(tag)] : []
   })
+  const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [products, setProducts] = useState([])
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
@@ -33,12 +35,19 @@ export default function Marketplace() {
       .catch(() => {})
   }, [])
 
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 400)
+    return () => clearTimeout(timer)
+  }, [search])
+
   useEffect(() => {
     const controller = new AbortController()
     setLoading(true)
     setError(false)
     const params = new URLSearchParams({ page, size: PAGE_SIZE })
     if (selectedTags.length > 0) params.set('tagIds', selectedTags.join(','))
+    if (debouncedSearch.trim()) params.set('search', debouncedSearch.trim())
     fetch(`${API_BASE}/products?${params}`, { signal: controller.signal })
       .then(r => { if (!r.ok) throw new Error(); return r.json() })
       .then(data => {
@@ -48,7 +57,7 @@ export default function Marketplace() {
       })
       .catch(err => { if (err.name !== 'AbortError') { setError(true); setLoading(false) } })
     return () => controller.abort()
-  }, [page, selectedTags])
+  }, [page, selectedTags, debouncedSearch])
 
   function toggleTag(id) {
     setPage(0)
@@ -60,6 +69,12 @@ export default function Marketplace() {
   function clearFilters() {
     setPage(0)
     setSelectedTags([])
+    setSearch('')
+  }
+
+  function handleSearch(e) {
+    setPage(0)
+    setSearch(e.target.value)
   }
 
   function goToPage(p) {
@@ -83,6 +98,17 @@ export default function Marketplace() {
       </div>
 
       <div className="mp-layout">
+        {/* Search input */}
+        <div className="mp-search-wrap">
+          <input
+            type="text"
+            className="mp-search-input"
+            placeholder={t('marketplace.search.placeholder')}
+            value={search}
+            onChange={handleSearch}
+          />
+        </div>
+
         {/* Sidebar filters */}
         <aside className="mp-sidebar">
           <button className="mp-filter-toggle" onClick={() => setFiltersOpen(prev => !prev)}>

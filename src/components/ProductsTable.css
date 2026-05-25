@@ -56,6 +56,32 @@
   color: #fff;
 }
 
+.admin-products-search-wrap {
+  margin-bottom: 1.25rem;
+}
+
+.admin-products-search-input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: var(--dark);
+  font-size: 0.95rem;
+  font-family: 'Lato', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-products-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.admin-products-search-input:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+}
+
 .admin-products-error {
   background: #fef2f2;
   border: 1px solid var(--rose);
