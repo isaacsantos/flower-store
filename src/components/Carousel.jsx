@@ -76,7 +76,7 @@ export default function Carousel() {
   }, [products, measureCard])
 
   const count = products.length
-  const displayed = [...products, ...products, ...products]
+  const displayed = count > 3 ? [...products, ...products, ...products] : products
 
   const prev = () => setIndex(i => (i - 1 + count) % count)
   const next = () => setIndex(i => (i + 1) % count)
