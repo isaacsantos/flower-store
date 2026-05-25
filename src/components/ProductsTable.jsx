@@ -146,6 +146,7 @@ export default function ProductsTable() {
                   <th>{t('admin.products.col.image')}</th>
                   <th>{t('admin.products.col.active')}</th>
                   <th>{t('admin.products.col.tags')}</th>
+                  <th>{t('admin.products.col.condition')}</th>
                   <th>{t('admin.products.col.actions')}</th>
                 </tr>
               </thead>
@@ -182,6 +183,11 @@ export default function ProductsTable() {
                             <span key={tag.id} className="admin-products-tag">{tag.name}</span>
                           ))}
                         </div>
+                      </td>
+                      <td data-label={t('admin.products.col.condition')}>
+                        {product.conditionType && product.conditionRating != null
+                          ? `${t(`condition.type.${product.conditionType.toLowerCase()}`)} (${product.conditionRating}/10)`
+                          : ''}
                       </td>
                       <td data-label={t('admin.products.col.actions')}>
                         <div className="admin-products-actions">

@@ -26,6 +26,8 @@ export default function Marketplace() {
   const [error, setError] = useState(false)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [expandedGroups, setExpandedGroups] = useState({})
+  const [conditionType, setConditionType] = useState(null)
+  const [minRating, setMinRating] = useState(null)
 
   // Fetch tags once
   useEffect(() => {
@@ -43,11 +45,18 @@ export default function Marketplace() {
 
   useEffect(() => {
     const controller = new AbortController()
+    const hasConditionFilters = conditionType !== null || minRating !== null
+    let timeoutId
+    if (hasConditionFilters) {
+      timeoutId = setTimeout(() => controller.abort(), 10000)
+    }
     setLoading(true)
     setError(false)
     const params = new URLSearchParams({ page, size: PAGE_SIZE })
     if (selectedTags.length > 0) params.set('tagIds', selectedTags.join(','))
     if (debouncedSearch.trim()) params.set('search', debouncedSearch.trim())
+    if (conditionType) params.set('conditionType', conditionType)
+    if (minRating !== null) params.set('conditionRating', minRating)
     fetch(`${API_BASE}/products?${params}`, { signal: controller.signal })
       .then(r => { if (!r.ok) throw new Error(); return r.json() })
       .then(data => {
@@ -56,8 +65,11 @@ export default function Marketplace() {
         setLoading(false)
       })
       .catch(err => { if (err.name !== 'AbortError') { setError(true); setLoading(false) } })
-    return () => controller.abort()
-  }, [page, selectedTags, debouncedSearch])
+    return () => {
+      controller.abort()
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [page, selectedTags, debouncedSearch, conditionType, minRating])
 
   function toggleTag(id) {
     setPage(0)
@@ -70,6 +82,8 @@ export default function Marketplace() {
     setPage(0)
     setSelectedTags([])
     setSearch('')
+    setConditionType(null)
+    setMinRating(null)
   }
 
   function handleSearch(e) {
@@ -112,19 +126,61 @@ export default function Marketplace() {
         {/* Sidebar filters */}
         <aside className="mp-sidebar">
           <button className="mp-filter-toggle" onClick={() => setFiltersOpen(prev => !prev)}>
-            {selectedTags.length > 0
-              ? t('marketplace.filter.activeCount').replace('{count}', selectedTags.length)
+            {(selectedTags.length > 0 || conditionType || minRating !== null)
+              ? t('marketplace.filter.activeCount').replace('{count}', selectedTags.length + (conditionType ? 1 : 0) + (minRating !== null ? 1 : 0))
               : t('marketplace.filter.toggle')}
           </button>
           <div className={`mp-filter-box ${!filtersOpen ? 'mp-filter-box--collapsed' : ''}`}>
             <div className="mp-filter-heading-row">
               <h3 className="mp-filter-heading">{t('marketplace.filter.heading')}</h3>
-              {selectedTags.length > 0 && (
+              {(selectedTags.length > 0 || conditionType || minRating !== null) && (
                 <button className="mp-clear-btn" onClick={clearFilters}>
                   {t('marketplace.filter.clear')}
                 </button>
               )}
             </div>
+
+            {/* Condition Type Filter */}
+            <div className="mp-filter-group">
+              <span className="mp-filter-label">{t('marketplace.filter.conditionType')}</span>
+              <div className="mp-condition-options">
+                <label className={`mp-tag-item ${conditionType === 'NEW' ? 'mp-tag-item--active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="conditionType"
+                    checked={conditionType === 'NEW'}
+                    onChange={() => { setConditionType('NEW'); setPage(0) }}
+                  />
+                  <span>{t('marketplace.filter.conditionType.new')}</span>
+                </label>
+                <label className={`mp-tag-item ${conditionType === 'USED' ? 'mp-tag-item--active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="conditionType"
+                    checked={conditionType === 'USED'}
+                    onChange={() => { setConditionType('USED'); setPage(0) }}
+                  />
+                  <span>{t('marketplace.filter.conditionType.used')}</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Min Rating Filter */}
+            <div className="mp-filter-group">
+              <label className="mp-filter-label" htmlFor="mp-min-rating">{t('marketplace.filter.minRating')}</label>
+              <select
+                id="mp-min-rating"
+                className="mp-rating-select"
+                value={minRating ?? ''}
+                onChange={(e) => { setMinRating(e.target.value ? Number(e.target.value) : null); setPage(0) }}
+              >
+                <option value="">—</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => (
+                  <option key={v} value={v}>{v}</option>
+                ))}
+              </select>
+            </div>
+
             {Object.entries(
               tags.reduce((groups, tag) => {
                 const type = tag.type || 'Other'

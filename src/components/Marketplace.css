@@ -140,7 +140,9 @@
 }
 
 .mp-group-toggle {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   background: none;
   border: none;
@@ -151,13 +153,18 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 0.4rem 0;
-  padding: 0 0 0.3rem 0;
+  padding: 0.4rem 0;
   border-bottom: 1px solid rgba(139, 157, 195, 0.15);
-  cursor: default;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.mp-group-toggle:hover {
+  color: #00d4ff;
 }
 
 .mp-group-toggle span:last-child {
-  display: none;
+  font-size: 0.85rem;
 }
 
 .mp-tag-list {
@@ -165,6 +172,16 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-height: 500px;
+  opacity: 1;
+}
+
+.mp-tag-list--collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
 }
 
 .mp-tag-item {
@@ -204,6 +221,44 @@
 }
 
 .mp-tag-item:hover { background: #1a1f3a; color: var(--rose); }
+
+/* Condition filter controls */
+.mp-filter-label {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  color: #8b9dc3;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(139, 157, 195, 0.15);
+}
+
+.mp-condition-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mp-rating-select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0,212,255,0.25);
+  background: #1a1f3a;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.mp-rating-select:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 0 3px rgba(0,212,255,0.15);
+}
 
 /* Main content */
 .mp-main { flex: 1; min-width: 0; }
@@ -437,7 +492,9 @@
   }
 
   .mp-tag-list--collapsed {
-    display: none;
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
   }
 
   .mp-tag-list {
@@ -451,6 +508,17 @@
   }
 
   .mp-tag-item { padding: 0.45rem 0.9rem; }
+
+  .mp-condition-options {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .mp-rating-select {
+    min-height: 44px;
+    font-size: 1rem;
+  }
 
   .mp-grid {
     grid-template-columns: repeat(2, 1fr);

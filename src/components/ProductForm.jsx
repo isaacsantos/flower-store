@@ -16,6 +16,8 @@ export default function ProductForm({ product, onClose, onSaved }) {
   const [price, setPrice] = useState(isEdit && product.price != null ? String(product.price) : '')
   const [description, setDescription] = useState(isEdit ? product.description : '')
   const [active, setActive] = useState(isEdit ? (product.active ?? true) : true)
+  const [conditionType, setConditionType] = useState(isEdit && product.conditionType ? product.conditionType : '')
+  const [conditionRating, setConditionRating] = useState(isEdit && product.conditionRating != null ? String(product.conditionRating) : '')
   const [availableTags, setAvailableTags] = useState([])
   const [selectedTagIds, setSelectedTagIds] = useState(
     isEdit ? (product.tags ?? []).map(tag => tag.id) : []
@@ -26,6 +28,8 @@ export default function ProductForm({ product, onClose, onSaved }) {
   )
   const [newImageFiles, setNewImageFiles] = useState([])
   const [newImagePreviews, setNewImagePreviews] = useState([])
+  const [conditionTypeError, setConditionTypeError] = useState('')
+  const [conditionRatingError, setConditionRatingError] = useState('')
   const [error, setError] = useState(null)
   const [saving, setSaving] = useState(false)
 
@@ -65,13 +69,41 @@ export default function ProductForm({ product, onClose, onSaved }) {
   async function handleSubmit(e) {
     e.preventDefault()
     setError(null)
+    setConditionTypeError('')
+    setConditionRatingError('')
+
+    // Validate condition fields
+    let hasValidationError = false
+
+    if (!conditionType) {
+      setConditionTypeError(t('admin.products.validation.conditionType'))
+      hasValidationError = true
+    }
+
+    const ratingNum = Number(conditionRating)
+    if (conditionRating === '' || !Number.isInteger(ratingNum) || ratingNum < 1 || ratingNum > 10) {
+      setConditionRatingError(t('admin.products.validation.conditionRating'))
+      hasValidationError = true
+    }
+
+    if (hasValidationError) {
+      return
+    }
+
     setSaving(true)
     try {
       const path = isEdit ? `${ADMIN_API_URL}/${product.id}` : ADMIN_API_URL
       const method = isEdit ? 'PUT' : 'POST'
       const saved = await apiRequest(path, {
         method,
-        body: JSON.stringify({ name, price: price.trim() === '' ? null : parseFloat(price), description, active }),
+        body: JSON.stringify({
+          name,
+          price: price.trim() === '' ? null : parseFloat(price),
+          description,
+          active,
+          conditionType: conditionType || null,
+          conditionRating: conditionRating !== '' ? parseInt(conditionRating, 10) : null,
+        }),
       }, user)
 
       const productId = saved?.id ?? product?.id
@@ -154,6 +186,35 @@ export default function ProductForm({ product, onClose, onSaved }) {
             >
               <div className="admin-form-toggle-thumb" />
             </div>
+          </label>
+
+          <label className="admin-form-label">
+            {t('admin.products.col.conditionType')}
+            <select
+              className="admin-form-input"
+              value={conditionType}
+              onChange={(e) => setConditionType(e.target.value)}
+            >
+              <option value="">{t('admin.products.form.conditionType.placeholder')}</option>
+              <option value="NEW">{t('condition.type.new')}</option>
+              <option value="USED">{t('condition.type.used')}</option>
+            </select>
+            {conditionTypeError && <span className="admin-form-field-error">{conditionTypeError}</span>}
+          </label>
+
+          <label className="admin-form-label">
+            {t('admin.products.col.conditionRating')}
+            <input
+              className="admin-form-input"
+              type="number"
+              min="1"
+              max="10"
+              step="1"
+              value={conditionRating}
+              onChange={(e) => setConditionRating(e.target.value)}
+              placeholder={t('admin.products.form.conditionRating.placeholder')}
+            />
+            {conditionRatingError && <span className="admin-form-field-error">{conditionRatingError}</span>}
           </label>
 
           {availableTags.length > 0 && (

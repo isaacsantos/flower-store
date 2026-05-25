@@ -7,7 +7,13 @@ import { LocaleProvider } from '../i18n/LocaleContext.jsx'
 import ProductForm from './ProductForm.jsx'
 
 vi.mock('../utils/apiClient', () => ({
-  apiRequest: vi.fn().mockResolvedValue({})
+  apiRequest: vi.fn().mockResolvedValue([]),
+  apiUpload: vi.fn().mockResolvedValue({}),
+  ADMIN_API_URL: 'http://localhost/api/products'
+}))
+
+vi.mock('../firebase/AuthContext.jsx', () => ({
+  useAuth: () => ({ user: { getIdToken: () => Promise.resolve('token') }, loading: false, isAdmin: true, logout: vi.fn() })
 }))
 
 function makeLocalStorageMock() {

@@ -113,12 +113,15 @@
   top: 12px; left: 12px;
   background: linear-gradient(135deg, #00d4ff, #a855f7);
   color: white;
-  font-size: 0.7rem;
+  font-size: max(10px, 0.7rem);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.3rem 0.7rem;
   border-radius: 50px;
+  white-space: nowrap;
+  max-width: calc(100% - 24px);
+  z-index: 1;
 }
 
 .card-overlay {
@@ -230,6 +233,12 @@
     font-size: 1.4rem;
   }
 
+  .card-tag {
+    top: 10px; left: 10px;
+    padding: 0.25rem 0.6rem;
+    max-width: calc(100% - 20px);
+  }
+
   .skeleton-card { width: 260px; }
 }
 
@@ -243,6 +252,14 @@
   }
 
   .product-card { width: 240px; }
+
+  .card-tag {
+    top: 8px; left: 8px;
+    padding: 0.2rem 0.5rem;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    max-width: calc(100% - 16px);
+  }
 
   .skeleton-card { width: 240px; height: 320px; }
 

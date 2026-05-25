@@ -135,6 +135,17 @@ export default function ProductDetail() {
               <p className="pd-price">${Number(product.price).toFixed(2)}</p>
             )}
 
+            {product.conditionType && (
+              <div className="pd-condition">
+                <span className={`pd-condition-badge pd-condition-badge--${product.conditionType.toLowerCase()}`}>
+                  {t(`condition.type.${product.conditionType.toLowerCase()}`)}
+                </span>
+                <span className="pd-condition-rating">
+                  {t('condition.rating.label')}: {product.conditionRating}/10
+                </span>
+              </div>
+            )}
+
             <p className="pd-desc">
               {product.description || t('product.defaultDesc')}
             </p>

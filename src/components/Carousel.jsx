@@ -15,7 +15,9 @@ const TAG_KEYS = [
 const ProductCard = forwardRef(function ProductCard({ product, index, t }, ref) {
   const navigate = useNavigate()
   const img = product.images?.find(i => i.displayOrder === 0)?.url ?? ''
-  const tagKey = TAG_KEYS[index % TAG_KEYS.length]
+  const tagLabel = product.conditionType
+    ? t(`condition.type.${product.conditionType.toLowerCase()}`)
+    : t(TAG_KEYS[index % TAG_KEYS.length])
 
   return (
     <div
@@ -26,7 +28,7 @@ const ProductCard = forwardRef(function ProductCard({ product, index, t }, ref) 
     >
       <div className="card-img-wrap">
         <img src={img} alt={product.name} className="card-img" />
-        <span className="card-tag">{t(tagKey)}</span>
+        <span className="card-tag">{tagLabel}</span>
         <div className="card-overlay">
           <span className="card-overlay-label">{t('carousel.card.addToCart')}</span>
         </div>
