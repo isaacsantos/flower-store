@@ -165,6 +165,38 @@
   font-family: 'Exo 2', sans-serif;
 }
 
+/* Condition section */
+.pd-condition {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pd-condition-badge {
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.pd-condition-badge--new {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25d366;
+}
+
+.pd-condition-badge--used {
+  background: rgba(255, 167, 38, 0.15);
+  color: #ffa726;
+}
+
+.pd-condition-rating {
+  font-size: 0.95rem;
+  color: #8b9dc3;
+}
+
 .pd-desc {
   font-size: 1.05rem;
   line-height: 1.8;
@@ -215,6 +247,11 @@
 
   .pd-arrow--left  { left: 8px; }
   .pd-arrow--right { right: 8px; }
+
+  .pd-condition {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
   .pd-cta { align-self: stretch; text-align: center; }
 

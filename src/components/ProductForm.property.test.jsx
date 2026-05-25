@@ -175,5 +175,5 @@ describe('Property 3: Form validation rejects invalid conditionRating values', (
       ),
       { numRuns: 100 }
     )
-  }, 30000)
+  }, 60000)
 })

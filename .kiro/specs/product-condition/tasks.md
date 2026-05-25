@@ -49,7 +49,7 @@ Add `conditionType` ("NEW"/"USED") and `conditionRating` (1–10) fields across 
     - **Property 3: Form validation rejects invalid conditionRating values**
     - **Validates: Requirements 1.5**
 
-- [-] 3. Checkpoint - Ensure all tests pass
+- [x] 3. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 4. Implement admin products table condition column
@@ -84,11 +84,11 @@ Add `conditionType` ("NEW"/"USED") and `conditionRating` (1–10) fields across 
     - **Property 6: Carousel tag falls back to index-based label when condition is absent**
     - **Validates: Requirements 3.4**
 
-- [-] 6. Checkpoint - Ensure all tests pass
+- [x] 6. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Implement marketplace condition filters
-  - [-] 7.1 Add condition type and minimum rating filter controls to `src/components/Marketplace.jsx`
+- [x] 7. Implement marketplace condition filters
+  - [x] 7.1 Add condition type and minimum rating filter controls to `src/components/Marketplace.jsx`
     - Add `conditionType` state (null by default) with radio/checkbox options "New" and "Used" using localized labels
     - Add `minRating` state (null by default) with a `<select>` offering values 1–10
     - Place filter controls inside the existing `.mp-filter-box` sidebar
@@ -100,18 +100,18 @@ Add `conditionType` ("NEW"/"USED") and `conditionRating` (1–10) fields across 
     - All filter labels use `t()` from the locale system
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7_
 
-  - [~] 7.2 Add responsive CSS for marketplace condition filters in `src/components/Marketplace.css`
+  - [x] 7.2 Add responsive CSS for marketplace condition filters in `src/components/Marketplace.css`
     - Filters visible and operable within collapsible filter panel on mobile (≤640px)
     - Filter toggle button has minimum 44px touch target height
     - No horizontal overflow at any breakpoint
     - _Requirements: 6.2, 6.5_
 
-  - [~] 7.3 Write property test for marketplace filter API parameters (Property 7)
+  - [x] 7.3 Write property test for marketplace filter API parameters (Property 7)
     - **Property 7: Marketplace condition filters produce correct API parameters**
     - **Validates: Requirements 4.2, 4.4**
 
-- [ ] 8. Implement product detail condition display
-  - [-] 8.1 Add condition badge and rating to `src/components/ProductDetail.jsx`
+- [x] 8. Implement product detail condition display
+  - [x] 8.1 Add condition badge and rating to `src/components/ProductDetail.jsx`
     - Render condition section between price and description when `product.conditionType` is non-null
     - Display localized badge with CSS class `pd-condition-badge--new` or `pd-condition-badge--used`
     - Display rating in format `{conditionRating}/10` with localized label
@@ -119,17 +119,17 @@ Add `conditionType` ("NEW"/"USED") and `conditionRating` (1–10) fields across 
     - All labels use `t()` from the locale system
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-  - [~] 8.2 Add responsive CSS for product detail condition section in `src/components/ProductDetail.css`
+  - [x] 8.2 Add responsive CSS for product detail condition section in `src/components/ProductDetail.css`
     - Badge and rating display inline (side by side) on desktop (>900px) and tablet (≤900px)
     - Stack vertically on mobile (≤640px)
     - No overlapping with adjacent elements at any breakpoint
     - _Requirements: 6.3, 6.5_
 
-  - [~] 8.3 Write property test for product detail condition display (Property 8)
+  - [x] 8.3 Write property test for product detail condition display (Property 8)
     - **Property 8: Product detail displays condition badge and rating**
     - **Validates: Requirements 5.1, 5.2, 5.3, 5.4**
 
-- [~] 9. Final checkpoint - Ensure all tests pass
+- [x] 9. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

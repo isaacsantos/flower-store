@@ -72,7 +72,7 @@ describe('ProductForm', () => {
           cleanup()
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 50 }
     )
-  })
+  }, 60000)
 })

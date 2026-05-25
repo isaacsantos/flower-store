@@ -92,3 +92,74 @@ describe('Carousel - Property 5: Carousel tag displays localized condition type'
     )
   }, 60000)
 })
+
+
+// Feature: product-condition, Property 6: Carousel tag falls back to index-based label when condition is absent
+// **Validates: Requirements 3.4**
+
+/**
+ * Generator: produces a product with null/undefined/empty conditionType
+ * to test the fallback to index-based TAG_KEYS rotation.
+ */
+const productWithoutConditionArb = fc.record({
+  id: fc.integer({ min: 1, max: 10000 }),
+  name: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
+  price: fc.oneof(fc.double({ min: 0.01, max: 9999.99, noNaN: true }), fc.constant(null)),
+  description: fc.string({ minLength: 0, maxLength: 100 }),
+  active: fc.boolean(),
+  conditionType: fc.constantFrom(null, undefined, ''),
+  conditionRating: fc.oneof(fc.integer({ min: 1, max: 10 }), fc.constant(null)),
+  images: fc.constant([{ url: 'https://example.com/img.jpg', displayOrder: 0 }]),
+  tags: fc.constant([]),
+})
+
+const TAG_KEYS = [
+  'carousel.tag.bestseller',
+  'carousel.tag.new',
+  'carousel.tag.limited',
+  'carousel.tag.popular',
+  'carousel.tag.fresh',
+  'carousel.tag.seasonal',
+]
+
+describe('Carousel - Property 6: Carousel tag falls back to index-based label when condition is absent', () => {
+  it('displays the index-based rotating tag label when conditionType is null/undefined/empty', async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        productWithoutConditionArb,
+        fc.constantFrom(...SUPPORTED_LOCALES),
+        async (product, locale) => {
+          // Set locale
+          lsMock.clear()
+          lsMock.setItem('pb_locale', locale)
+
+          // Mock fetch to return our generated product
+          vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+            json: () => Promise.resolve({ content: [product] }),
+          }))
+
+          render(
+            <MemoryRouter>
+              <LocaleProvider>
+                <Carousel />
+              </LocaleProvider>
+            </MemoryRouter>
+          )
+
+          // The fallback tag for index 0 should be TAG_KEYS[0 % 6]
+          const expectedKey = TAG_KEYS[0 % TAG_KEYS.length]
+          const expectedLabel = translations[locale][expectedKey]
+
+          await waitFor(() => {
+            const tags = document.querySelectorAll('.card-tag')
+            expect(tags.length).toBeGreaterThan(0)
+            expect(tags[0].textContent).toBe(expectedLabel)
+          })
+
+          cleanup()
+        }
+      ),
+      { numRuns: 100 }
+    )
+  }, 60000)
+})
