@@ -17,8 +17,8 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="nav-logo" onClick={() => { close(); navigate('/') }} style={{ cursor: 'pointer' }}>
-        <img src={logo} alt="Pixel Realm" className="logo-icon" />
-        <span className="logo-text">Pixel Realm</span>
+        <img src={logo} alt="Zack Retro Store" className="logo-icon" />
+        <span className="logo-text">Zack Retro Store</span>
       </div>
 
       <button
@@ -38,7 +38,6 @@ export default function Navbar() {
               {t('nav.shop')}
             </a>
           </li>
-          <li><a href="#about" onClick={close}>{t('nav.about')}</a></li>
           <li>
             <a href="#" onClick={e => { e.preventDefault(); close(); navigate('/contact') }}>
               {t('nav.contact')}

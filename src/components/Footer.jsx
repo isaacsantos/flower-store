@@ -10,17 +10,8 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <span className="footer-logo">🎮 Pixel Realm</span>
+          <span className="footer-logo">🎮 Zack Retro Store</span>
           <p>{t('footer.tagline')}</p>
-        </div>
-        <div className="footer-links">
-          <h4>{t('footer.shop.heading')}</h4>
-          <ul>
-            <li>{t('footer.shop.bouquets')}</li>
-            <li>{t('footer.shop.seasonal')}</li>
-            <li>{t('footer.shop.gifts')}</li>
-            <li>{t('footer.shop.subscriptions')}</li>
-          </ul>
         </div>
         <div className="footer-links">
           <h4>{t('footer.help.heading')}</h4>
@@ -31,14 +22,6 @@ export default function Footer() {
               </span>
             </li>
           </ul>
-        </div>
-        <div className="footer-newsletter">
-          <h4>{t('footer.newsletter.heading')}</h4>
-          <p>{t('footer.newsletter.desc')}</p>
-          <div className="newsletter-form">
-            <input type="email" placeholder={t('footer.newsletter.placeholder')} />
-            <button>{t('footer.newsletter.btn')}</button>
-          </div>
         </div>
       </div>
       <div className="footer-bottom">

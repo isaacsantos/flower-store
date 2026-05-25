@@ -88,7 +88,6 @@ export default function Carousel() {
       <div className="section-header">
         <p className="section-eyebrow">{t('carousel.eyebrow')}</p>
         <h2 className="section-title">{t('carousel.title')}</h2>
-        <p className="section-sub">{t('carousel.sub')}</p>
       </div>
 
       {loading && (

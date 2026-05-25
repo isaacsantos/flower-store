@@ -71,7 +71,7 @@ function MothersDayBanner({ t, navigate }) {
         </h1>
         <p className="banner-sub">{t('banner.mothers.sub')}</p>
         <div className="banner-actions">
-          <button className="btn-primary md-btn-primary" onClick={() => navigate('/shop?tag=1')}>{t('banner.mothers.cta.primary')}</button>
+          <button className="btn-primary md-btn-primary" onClick={() => navigate('/shop')}>{t('banner.mothers.cta.primary')}</button>
         </div>
       </div>
 
