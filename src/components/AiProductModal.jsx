@@ -151,6 +151,8 @@ export default function AiProductModal({ onClose }) {
       <div className="ai-modal-card">
         <h2 className="ai-modal-title">{t('admin.ai.title')}</h2>
 
+        <p className="ai-modal-hint">{t('admin.ai.hint')}</p>
+
         {error && <p className="ai-modal-error">{error}</p>}
 
         {sending ? (
