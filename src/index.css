@@ -120,3 +120,101 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   background: #ff4757;
   color: #fff;
 }
+
+/* ---------------------------------------------------------------------------
+   Admin ProductForm modal — dark theme overrides.
+   The base ProductForm.css uses var(--dark) for label/title text on a
+   var(--cream) card. In the videogame theme both resolve to dark navy, making
+   labels invisible. Re-skin the modal for the dark background here.
+--------------------------------------------------------------------------- */
+
+/* Modal card: use a dark panel instead of the (now-dark) --cream */
+.admin-form-card {
+  background: #111633;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(224, 230, 240, 0.12);
+}
+
+.admin-form-title {
+  color: #e0e6f0;
+}
+
+/* Labels — the main readability problem */
+.admin-form-label,
+.admin-form-toggle {
+  color: #c8d0e0;
+}
+
+/* Inputs: keep a dark field with light text (base used #fff bg + --dark text) */
+.admin-form-input {
+  background: #0b0f22;
+  color: #e0e6f0;
+  border-color: rgba(224, 230, 240, 0.2);
+}
+
+.admin-form-input::placeholder {
+  color: #6b7a99;
+}
+
+.admin-form-input:focus {
+  border-color: var(--rose);
+}
+
+/* Cancel button text/border on dark */
+.admin-form-btn--cancel {
+  color: #c8d0e0;
+  border-color: rgba(224, 230, 240, 0.3);
+}
+
+.admin-form-btn--cancel:hover:not(:disabled) {
+  background: rgba(224, 230, 240, 0.08);
+}
+
+/* Tag chips inside the form */
+.admin-form-tag {
+  background: #0b0f22;
+  border-color: rgba(224, 230, 240, 0.15);
+  color: #c8d0e0;
+}
+
+.admin-form-tag--selected {
+  background: rgba(0, 212, 255, 0.15);
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
+/* Image add tile */
+.admin-form-image-add {
+  background: #0b0f22;
+  border-color: rgba(224, 230, 240, 0.25);
+  color: #8b9dc3;
+}
+
+.admin-form-image-add:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.admin-form-image-thumb {
+  border-color: rgba(224, 230, 240, 0.2);
+}
+
+/* Error block */
+.admin-form-error {
+  background: rgba(255, 71, 87, 0.1);
+  color: #ff6b7a;
+  border-color: #ff4757;
+}
+
+/* Inactive toggle track reads better with a neutral dark */
+.admin-form-toggle-track {
+  background: #2a3150;
+}
+
+/* AdminHome header divider + logout already use theme vars; ensure any
+   stray body text in the admin content area is light */
+.admin-layout .admin-home,
+.admin-layout .admin-home__content {
+  color: #e0e6f0;
+}
