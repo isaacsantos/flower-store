@@ -128,87 +128,97 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
    labels invisible. Re-skin the modal for the dark background here.
 --------------------------------------------------------------------------- */
 
+/* NOTE: these selectors are scoped under .admin-form-overlay to outrank the
+   base rules in ProductForm.css, which is imported after index.css in the
+   production bundle and would otherwise win at equal specificity. */
+
 /* Modal card: use a dark panel instead of the (now-dark) --cream */
-.admin-form-card {
+.admin-form-overlay .admin-form-card {
   background: #111633;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(224, 230, 240, 0.12);
 }
 
-.admin-form-title {
+.admin-form-overlay .admin-form-title {
   color: #e0e6f0;
 }
 
 /* Labels — the main readability problem */
-.admin-form-label,
-.admin-form-toggle {
+.admin-form-overlay .admin-form-label,
+.admin-form-overlay .admin-form-toggle {
   color: #c8d0e0;
 }
 
 /* Inputs: keep a dark field with light text (base used #fff bg + --dark text) */
-.admin-form-input {
+.admin-form-overlay .admin-form-input {
   background: #0b0f22;
   color: #e0e6f0;
   border-color: rgba(224, 230, 240, 0.2);
 }
 
-.admin-form-input::placeholder {
+.admin-form-overlay .admin-form-input::placeholder {
   color: #6b7a99;
 }
 
-.admin-form-input:focus {
+/* <option>s inherit the OS/dark field — force readable colors in the dropdown */
+.admin-form-overlay .admin-form-input option {
+  background: #111633;
+  color: #e0e6f0;
+}
+
+.admin-form-overlay .admin-form-input:focus {
   border-color: var(--rose);
 }
 
 /* Cancel button text/border on dark */
-.admin-form-btn--cancel {
+.admin-form-overlay .admin-form-btn--cancel {
   color: #c8d0e0;
   border-color: rgba(224, 230, 240, 0.3);
 }
 
-.admin-form-btn--cancel:hover:not(:disabled) {
+.admin-form-overlay .admin-form-btn--cancel:hover:not(:disabled) {
   background: rgba(224, 230, 240, 0.08);
 }
 
 /* Tag chips inside the form */
-.admin-form-tag {
+.admin-form-overlay .admin-form-tag {
   background: #0b0f22;
   border-color: rgba(224, 230, 240, 0.15);
   color: #c8d0e0;
 }
 
-.admin-form-tag--selected {
+.admin-form-overlay .admin-form-tag--selected {
   background: rgba(0, 212, 255, 0.15);
   border-color: var(--rose);
   color: var(--rose);
 }
 
 /* Image add tile */
-.admin-form-image-add {
+.admin-form-overlay .admin-form-image-add {
   background: #0b0f22;
   border-color: rgba(224, 230, 240, 0.25);
   color: #8b9dc3;
 }
 
-.admin-form-image-add:hover {
+.admin-form-overlay .admin-form-image-add:hover {
   border-color: var(--rose);
   color: var(--rose);
   background: rgba(0, 212, 255, 0.08);
 }
 
-.admin-form-image-thumb {
+.admin-form-overlay .admin-form-image-thumb {
   border-color: rgba(224, 230, 240, 0.2);
 }
 
 /* Error block */
-.admin-form-error {
+.admin-form-overlay .admin-form-error {
   background: rgba(255, 71, 87, 0.1);
   color: #ff6b7a;
   border-color: #ff4757;
 }
 
 /* Inactive toggle track reads better with a neutral dark */
-.admin-form-toggle-track {
+.admin-form-overlay .admin-form-toggle-track {
   background: #2a3150;
 }
 
