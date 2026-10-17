@@ -152,47 +152,89 @@
   padding-top: 0.5rem;
 }
 
-.pd-name-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
 .pd-name {
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   line-height: 1.2;
   color: #e2e8f0;
-  flex: 1;
-  min-width: 0;
 }
 
-/* Admin-only: copy product name */
-.pd-copy-name {
-  flex-shrink: 0;
-  align-self: center;
+/* Admin-only: Marketplace helper section */
+.pd-mkt {
+  margin-top: 1rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 12px;
+  background: rgba(0, 212, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pd-mkt-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+.pd-mkt-hint {
+  font-size: 0.85rem;
+  color: #8b9dc3;
+  margin: 0;
+}
+
+.pd-mkt-copy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pd-mkt-btn {
   background: transparent;
   color: var(--rose);
   border: 1.5px solid var(--rose);
   border-radius: 8px;
-  padding: 0.45rem 0.9rem;
+  padding: 0.5rem 0.9rem;
   font-family: 'Exo 2', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
-  min-height: 40px;
+  min-height: 44px;
   white-space: nowrap;
   transition: background 0.2s, color 0.2s;
 }
 
-.pd-copy-name:hover {
+.pd-mkt-btn:hover {
   background: var(--rose);
   color: #0a0e1a;
 }
 
+.pd-mkt-open {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  background: #1877f2;
+  color: #fff;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.pd-mkt-open:hover {
+  background: #145dbf;
+}
+
 @media (max-width: 640px) {
-  .pd-copy-name {
-    min-height: 44px;
+  .pd-mkt-btn,
+  .pd-mkt-open {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
   }
 }
 

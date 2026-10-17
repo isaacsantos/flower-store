@@ -50,7 +50,11 @@ export default function ProductDetail() {
   }
 
   const handleCopyName = () => copyToClipboard(product?.name, 'name')
+  const handleCopyPrice = () =>
+    copyToClipboard(product?.price != null ? String(Number(product.price)) : '', 'price')
   const handleCopyDescription = () => copyToClipboard(toDisplayText(product?.description), 'desc')
+
+  const MARKETPLACE_CREATE_URL = 'https://www.facebook.com/marketplace/create/item'
 
   useEffect(() => {
     setLoading(true)
@@ -155,20 +159,7 @@ export default function ProductDetail() {
 
           {/* Info */}
           <div className="pd-info">
-            <div className="pd-name-row">
-              <h1 className="pd-name">{product.name}</h1>
-              {isAdmin && (
-                <button
-                  type="button"
-                  className="pd-copy-name"
-                  onClick={handleCopyName}
-                  title={t('product.copyName')}
-                  aria-label={t('product.copyName')}
-                >
-                  {copiedField === 'name' ? t('product.copyName.done') : t('product.copyName')}
-                </button>
-              )}
-            </div>
+            <h1 className="pd-name">{product.name}</h1>
 
             {product.price != null && (
               <p className="pd-price">${Number(product.price).toFixed(2)}</p>
@@ -189,19 +180,39 @@ export default function ProductDetail() {
               ? <FormattedDescription className="pd-desc" text={product.description} />
               : <p className="pd-desc">{t('product.defaultDesc')}</p>}
 
-            {isAdmin && product.description && (
-              <button
-                type="button"
-                className="pd-copy-desc"
-                onClick={handleCopyDescription}
-              >
-                {copiedField === 'desc' ? t('product.copyDesc.done') : t('product.copyDesc')}
-              </button>
-            )}
-
             <button className="pd-cta" onClick={handleCta}>
               {t('product.cta')}
             </button>
+
+            {isAdmin && (
+              <div className="pd-mkt">
+                <h3 className="pd-mkt-title">{t('product.mkt.title')}</h3>
+                <p className="pd-mkt-hint">{t('product.mkt.hint')}</p>
+                <div className="pd-mkt-copy">
+                  <button type="button" className="pd-mkt-btn" onClick={handleCopyName}>
+                    {copiedField === 'name' ? t('product.copyName.done') : t('product.copyName')}
+                  </button>
+                  {product.price != null && (
+                    <button type="button" className="pd-mkt-btn" onClick={handleCopyPrice}>
+                      {copiedField === 'price' ? t('product.copyPrice.done') : t('product.copyPrice')}
+                    </button>
+                  )}
+                  {product.description && (
+                    <button type="button" className="pd-mkt-btn" onClick={handleCopyDescription}>
+                      {copiedField === 'desc' ? t('product.copyDesc.done') : t('product.copyDesc')}
+                    </button>
+                  )}
+                </div>
+                <a
+                  className="pd-mkt-open"
+                  href={MARKETPLACE_CREATE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('product.mkt.open')}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       )}
