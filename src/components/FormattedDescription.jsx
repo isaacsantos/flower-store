@@ -114,3 +114,33 @@ export function toPlainPreview(text) {
     .map((l) => l.replace(/^-\s+/, '').replace(/\*\*(.+?):\*\*/g, '$1:'))
     .join(' ')
 }
+
+/**
+ * Converts the light-format text into clean, human-readable multi-line text that
+ * mirrors what is shown on screen (headings without "##", bullets as "• ",
+ * metadata without "**"). Used for the admin "copy description" action.
+ * Treats input as plain text — no HTML.
+ */
+export function toDisplayText(text) {
+  if (!text) return ''
+  const lines = text.replace(/\r\n/g, '\n').split('\n')
+  const out = []
+  for (const rawLine of lines) {
+    const line = rawLine.trim()
+    if (line === '') {
+      // Preserve a single blank line between blocks (avoid consecutive blanks)
+      if (out.length > 0 && out[out.length - 1] !== '') out.push('')
+      continue
+    }
+    if (line.startsWith('## ')) {
+      out.push(line.slice(3).trim())
+    } else if (line.startsWith('- ')) {
+      out.push('• ' + line.slice(2).trim())
+    } else {
+      out.push(line.replace(/\*\*(.+?):\*\*/g, '$1:'))
+    }
+  }
+  // Trim trailing blank line
+  while (out.length && out[out.length - 1] === '') out.pop()
+  return out.join('\n')
+}

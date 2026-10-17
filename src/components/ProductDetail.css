@@ -238,6 +238,27 @@
   color: #c8d0e0;
 }
 
+/* Admin-only: copy description to clipboard */
+.pd-copy-desc {
+  align-self: flex-start;
+  background: transparent;
+  color: var(--rose);
+  border: 1.5px solid var(--rose);
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 44px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.pd-copy-desc:hover {
+  background: var(--rose);
+  color: #0a0e1a;
+}
+
 .pd-cta {
   margin-top: 0.5rem;
   background: linear-gradient(135deg, #25d366, #128c7e);

@@ -7,6 +7,12 @@ import ProductDetail from './ProductDetail.jsx'
 import { LocaleProvider } from '../i18n/LocaleContext.jsx'
 import { translations, SUPPORTED_LOCALES } from '../i18n/translations.js'
 
+// ProductDetail uses useAuth() to decide whether to show the admin-only copy button.
+// These property tests cover the public condition display, so stub a non-admin user.
+vi.mock('../firebase/AuthContext.jsx', () => ({
+  useAuth: () => ({ user: null, isAdmin: false, loading: false }),
+}))
+
 /**
  * Validates: Requirements 5.1, 5.2, 5.3, 5.4
  *

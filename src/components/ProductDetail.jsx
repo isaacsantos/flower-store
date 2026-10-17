@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useLocale } from '../i18n/LocaleContext'
+import { useAuth } from '../firebase/AuthContext.jsx'
 import NotFound from './NotFound'
 import ChannelPickerModal from './ChannelPickerModal'
-import FormattedDescription from './FormattedDescription'
+import FormattedDescription, { toDisplayText } from './FormattedDescription'
 import './ProductDetail.css'
 
 const API_BASE = import.meta.env.VITE_PRODUCTS_API_URL.replace(/\/products$/, '')
@@ -15,6 +16,7 @@ export default function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { t } = useLocale()
+  const { isAdmin } = useAuth()
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -22,6 +24,27 @@ export default function ProductDetail() {
   const [error, setError] = useState(false)
   const [imgIndex, setImgIndex] = useState(0)
   const [showPicker, setShowPicker] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  async function handleCopyDescription() {
+    const textToCopy = toDisplayText(product?.description)
+    if (!textToCopy) return
+    try {
+      await navigator.clipboard.writeText(textToCopy)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Clipboard API can fail (permissions / insecure context) — fall back
+      const ta = document.createElement('textarea')
+      ta.value = textToCopy
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.select()
+      try { document.execCommand('copy'); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* ignore */ }
+      document.body.removeChild(ta)
+    }
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -146,6 +169,16 @@ export default function ProductDetail() {
             {product.description
               ? <FormattedDescription className="pd-desc" text={product.description} />
               : <p className="pd-desc">{t('product.defaultDesc')}</p>}
+
+            {isAdmin && product.description && (
+              <button
+                type="button"
+                className="pd-copy-desc"
+                onClick={handleCopyDescription}
+              >
+                {copied ? t('product.copyDesc.done') : t('product.copyDesc')}
+              </button>
+            )}
 
             <button className="pd-cta" onClick={handleCta}>
               {t('product.cta')}
