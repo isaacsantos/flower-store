@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useLocale } from '../i18n/LocaleContext'
 import NotFound from './NotFound'
 import ChannelPickerModal from './ChannelPickerModal'
+import FormattedDescription from './FormattedDescription'
 import './ProductDetail.css'
 
 const API_BASE = import.meta.env.VITE_PRODUCTS_API_URL.replace(/\/products$/, '')
@@ -142,9 +143,9 @@ export default function ProductDetail() {
               </div>
             )}
 
-            <p className="pd-desc">
-              {product.description || t('product.defaultDesc')}
-            </p>
+            {product.description
+              ? <FormattedDescription className="pd-desc" text={product.description} />
+              : <p className="pd-desc">{t('product.defaultDesc')}</p>}
 
             <button className="pd-cta" onClick={handleCta}>
               {t('product.cta')}

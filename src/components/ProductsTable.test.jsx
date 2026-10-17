@@ -111,12 +111,12 @@ describe('ProductsTable', () => {
     )
   }, 60000)
 
-  // Unit test: Renderizado del botón "Crear Productos con IA" (Req 1.1)
+  // Unit test: Renderizado del botón "Crear Producto con IA" (Req 1.1)
   it('renders the AI product creation button', async () => {
     apiRequest.mockResolvedValue([])
     renderProductsTable()
 
-    const aiButton = await screen.findByText('Crear Productos con IA')
+    const aiButton = await screen.findByText('Crear Producto con IA')
     expect(aiButton).toBeInTheDocument()
     expect(aiButton.tagName).toBe('BUTTON')
   })
@@ -126,7 +126,7 @@ describe('ProductsTable', () => {
     apiRequest.mockResolvedValue([])
     renderProductsTable()
 
-    const aiButton = await screen.findByText('Crear Productos con IA')
+    const aiButton = await screen.findByText('Crear Producto con IA')
     expect(screen.queryByTestId('ai-product-modal')).not.toBeInTheDocument()
 
     await userEvent.click(aiButton)

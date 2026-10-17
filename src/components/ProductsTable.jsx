@@ -4,6 +4,7 @@ import { useAuth } from '../firebase/AuthContext.jsx'
 import { apiRequest, ADMIN_API_URL } from '../utils/apiClient.js'
 import ProductForm from './ProductForm.jsx'
 import AiProductModal from './AiProductModal.jsx'
+import { toPlainPreview } from './FormattedDescription.jsx'
 import './ProductsTable.css'
 
 const PAGE_SIZE = 10
@@ -160,7 +161,7 @@ export default function ProductsTable() {
                       <td data-label={t('admin.products.col.name')}>{product.name}</td>
                       <td data-label={t('admin.products.col.price')}>{product.price}</td>
                       <td data-label={t('admin.products.col.description')} className="admin-products-desc">
-                        {product.description}
+                        {toPlainPreview(product.description)}
                       </td>
                       <td data-label={t('admin.products.col.image')}>
                         {firstImage && (

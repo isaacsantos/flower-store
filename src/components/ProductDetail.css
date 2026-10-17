@@ -203,6 +203,41 @@
   color: #8b9dc3;
 }
 
+/* Formatted description sections (rendered by FormattedDescription) */
+.pd-desc .fd-heading {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.05rem;
+  color: #e2e8f0;
+  margin: 1.25rem 0 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.pd-desc .fd-heading:first-child {
+  margin-top: 0;
+}
+
+.pd-desc .fd-paragraph {
+  margin: 0 0 0.75rem;
+}
+
+.pd-desc .fd-list {
+  margin: 0 0 0.75rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.pd-desc .fd-list li {
+  margin: 0.2rem 0;
+}
+
+.pd-desc .fd-meta {
+  margin: 0.25rem 0;
+}
+
+.pd-desc .fd-meta strong {
+  color: #c8d0e0;
+}
+
 .pd-cta {
   margin-top: 0.5rem;
   background: linear-gradient(135deg, #25d366, #128c7e);
