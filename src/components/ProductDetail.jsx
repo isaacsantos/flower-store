@@ -24,27 +24,33 @@ export default function ProductDetail() {
   const [error, setError] = useState(false)
   const [imgIndex, setImgIndex] = useState(0)
   const [showPicker, setShowPicker] = useState(false)
-  const [copied, setCopied] = useState(false)
+  // Tracks which field was just copied ('name' | 'desc' | null) for per-button feedback
+  const [copiedField, setCopiedField] = useState(null)
 
-  async function handleCopyDescription() {
-    const textToCopy = toDisplayText(product?.description)
-    if (!textToCopy) return
+  async function copyToClipboard(text, field) {
+    if (!text) return
+    const markCopied = () => {
+      setCopiedField(field)
+      setTimeout(() => setCopiedField((f) => (f === field ? null : f)), 2000)
+    }
     try {
-      await navigator.clipboard.writeText(textToCopy)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(text)
+      markCopied()
     } catch {
       // Clipboard API can fail (permissions / insecure context) — fall back
       const ta = document.createElement('textarea')
-      ta.value = textToCopy
+      ta.value = text
       ta.style.position = 'fixed'
       ta.style.opacity = '0'
       document.body.appendChild(ta)
       ta.select()
-      try { document.execCommand('copy'); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* ignore */ }
+      try { document.execCommand('copy'); markCopied() } catch { /* ignore */ }
       document.body.removeChild(ta)
     }
   }
+
+  const handleCopyName = () => copyToClipboard(product?.name, 'name')
+  const handleCopyDescription = () => copyToClipboard(toDisplayText(product?.description), 'desc')
 
   useEffect(() => {
     setLoading(true)
@@ -149,7 +155,20 @@ export default function ProductDetail() {
 
           {/* Info */}
           <div className="pd-info">
-            <h1 className="pd-name">{product.name}</h1>
+            <div className="pd-name-row">
+              <h1 className="pd-name">{product.name}</h1>
+              {isAdmin && (
+                <button
+                  type="button"
+                  className="pd-copy-name"
+                  onClick={handleCopyName}
+                  title={t('product.copyName')}
+                  aria-label={t('product.copyName')}
+                >
+                  {copiedField === 'name' ? t('product.copyName.done') : t('product.copyName')}
+                </button>
+              )}
+            </div>
 
             {product.price != null && (
               <p className="pd-price">${Number(product.price).toFixed(2)}</p>
@@ -176,7 +195,7 @@ export default function ProductDetail() {
                 className="pd-copy-desc"
                 onClick={handleCopyDescription}
               >
-                {copied ? t('product.copyDesc.done') : t('product.copyDesc')}
+                {copiedField === 'desc' ? t('product.copyDesc.done') : t('product.copyDesc')}
               </button>
             )}
 

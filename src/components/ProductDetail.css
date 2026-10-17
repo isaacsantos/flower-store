@@ -152,10 +152,48 @@
   padding-top: 0.5rem;
 }
 
+.pd-name-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .pd-name {
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   line-height: 1.2;
   color: #e2e8f0;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Admin-only: copy product name */
+.pd-copy-name {
+  flex-shrink: 0;
+  align-self: center;
+  background: transparent;
+  color: var(--rose);
+  border: 1.5px solid var(--rose);
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 40px;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.pd-copy-name:hover {
+  background: var(--rose);
+  color: #0a0e1a;
+}
+
+@media (max-width: 640px) {
+  .pd-copy-name {
+    min-height: 44px;
+  }
 }
 
 .pd-price {
